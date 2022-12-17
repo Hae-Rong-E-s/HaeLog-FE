@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import AddPostForm from "../components/create/AddPostForm";
+import Footer from "../components/layout/Footer";
 
 const Create = () => {
   return (
-    <Container>
-      <AddPostForm />
-    </Container>
+    <div>
+      <Container>
+        <AddPostForm />
+      </Container>
+      <Footer />
+    </div>
   );
 };
 

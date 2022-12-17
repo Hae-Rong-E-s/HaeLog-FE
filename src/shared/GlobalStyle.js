@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
     outline : none;
     font-family:'nomal';
     background-color: var(--color-deep-gray);
-
+    color: white;
   }
 
   body {

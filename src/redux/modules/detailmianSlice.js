@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { serverUrl } from ".";
 
-export const __getEditPost = createAsyncThunk(
-  "editPost/getEditPost",
+export const __getDetailmain = createAsyncThunk(
+  "detailmainPost/getDetailmain",
   async (payload, thunkAPI) => {
     try {
+      console.log(`${serverUrl}/posts/${payload}`);
       const { data } = await axios.get(`${serverUrl}/posts/${payload}`);
-      const [selectData] = data;
-      return thunkAPI.fulfillWithValue(selectData);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -16,39 +16,39 @@ export const __getEditPost = createAsyncThunk(
 );
 
 const initialState = {
-  editPost: {
+  detailmainPost: {
     title: "",
-    content: "",
     category: "",
+    content: "",
     date: "",
   },
   isLoading: false,
   error: null,
 };
 
-// slice
-const editPostSlice = createSlice({
-  name: "editPost",
+//slice
+const detailmainSlice = createSlice({
+  name: "detailmainPost",
   initialState,
   reducers: {},
   extraReducers: {
-    [__getEditPost.pending]: (state) => {
+    [__getDetailmain.pending]: (state) => {
       state.isLoading = true;
     },
-    [__getEditPost.fulfilled]: (state, action) => {
+    [__getDetailmain.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.editPost = {
+      state.detailmainPost = {
         title: action.payload.title,
         content: action.payload.content,
         category: action.payload.category,
         date: action.payload.date,
       };
     },
-    [__getEditPost.rejected]: (state) => {
+    [__getDetailmain.rejected]: (state, action) => {
       state.isLoading = false;
     },
   },
 });
 
-export const {} = editPostSlice.actions;
-export default editPostSlice.reducer;
+export const {} = detailmainSlice.actions;
+export default detailmainSlice.reducer;

@@ -9,7 +9,6 @@ import { __getEditPost } from "../../redux/modules/editPostSlice";
 import { useDispatch, useSelector } from "react-redux";
 // 디자인
 import styled from "styled-components";
-import Button from "../elem/Button";
 import MarkdownRender from "../MarkdownRender";
 
 //-- 디자인 --//
@@ -21,29 +20,28 @@ const ButtonContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  padding: 15px;
+  padding: 15px 15px 15px 0;
   input {
-    color: var(--color-black);
+    color: white;
     width: 100%;
     border: none;
-    font-size: 22px;
-    border-bottom: solid 3px var(--color-point1);
-    font-weight: 800;
-    padding-bottom: 15px;
+    font-size: 30px;
+    font-family: "bold";
+    padding-bottom: 10px;
     &:focus {
       outline: none;
     }
     &::placeholder {
-      color: var(--color-point1);
+      color: gray;
     }
   }
 `;
 
 const TagContainer = styled.div`
   display: flex;
-  padding: 12px 15px 15px 15px;
+  padding: 18px 15px 15px 0;
   span {
-    color: var(--color-point2);
+    color: gray;
     font-size: 18px;
     font-weight: 800;
   }
@@ -54,29 +52,29 @@ const TagContainer = styled.div`
     font-size: 18px;
     font-weight: 800;
     &::placeholder {
-      color: var(--color-point2);
+      color: gray;
     }
   }
 `;
 
 const ContentContainer = styled.div`
-  padding: 22px 25px 25px 25px;
+  padding: 0px 25px 25px 0;
   border: 2px solid var(--color-point2);
   border-radius: 10px;
-  margin: 15px;
+  margin-top: 15px;
   textarea {
-    color: var(--color-black);
+    color: gray;
     width: 100%;
     border: none;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 800;
     resize: none;
-    min-height: 50vh;
+    min-height: 30vh;
     &:focus {
       outline: none;
     }
     &::placeholder {
-      color: var(--color-point1);
+      color: gray;
     }
   }
 `;
@@ -159,11 +157,7 @@ const AddPostForm = () => {
   };
   return (
     <div>
-      <ButtonContainer>
-        <Button type="button" onClick={onClickHandler}>
-          {postid ? "수정하기" : "발행하기"}
-        </Button>
-      </ButtonContainer>
+      <ButtonContainer></ButtonContainer>
       <TitleContainer>
         <input
           type="text"
@@ -173,6 +167,7 @@ const AddPostForm = () => {
           onChange={onChangeHandler}
         />
       </TitleContainer>
+      <hr />
       <TagContainer>
         <span>#</span>
         <input
@@ -182,7 +177,6 @@ const AddPostForm = () => {
           value={input.category}
           onChange={onChangeHandler}
         />
-        {/* <Button>추가</Button> */}
       </TagContainer>
       <ContentContainer>
         <textarea
@@ -193,6 +187,7 @@ const AddPostForm = () => {
           onChange={onChangeHandler}
         />
       </ContentContainer>
+      <hr />
       <ContentContainer>
         <MarkdownRender
           markdown={
@@ -200,6 +195,7 @@ const AddPostForm = () => {
               ? "마크다운이 변환되어 보여집니다"
               : input.content
           }
+          color={input.color === "" ? "gray" : "white"}
         />
       </ContentContainer>
     </div>
