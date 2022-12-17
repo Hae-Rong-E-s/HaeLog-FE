@@ -1,15 +1,56 @@
 import styled from "styled-components";
 import Button from "../../elem/Button";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { __postComment } from "../../../redux/modules/commentSlice";
 
 const AddComments = () => {
+  const dispatch = useDispatch();
+  const { param } = useParams();
+
+  // 댓글 상태관리
+  const [addComment, setAddComment] = useState({
+    commentId: "",
+    nickname: "Noa",
+    commentContent: "",
+  });
+
+  const onChangeHandler = (e) => {
+    setAddComment({ ...addComment, [e.target.name]: e.target.value });
+  };
+
+  // POST
+  const onClickAddHandler = (e) => {
+    e.preventDefault();
+    dispatch(__postComment({ ...addComment, commentId: param }));
+    setAddComment({
+      ...addComment,
+      commentContent: "",
+    });
+  };
+
   return (
     <StCommentFormBox>
       <div>5개의 댓글</div>
       <StCommentForm>
-        <StTextArea></StTextArea>
+        <StTextArea
+          required
+          type="text"
+          name="commentContent"
+          value={addComment.commentContent}
+          onChange={onChangeHandler}
+        ></StTextArea>
       </StCommentForm>
       <StButtonBox>
-        <Button>댓글 작성</Button>
+        <Button
+          width="120px"
+          fontSize="20px"
+          type="button"
+          onClick={onClickAddHandler}
+        >
+          댓글 작성
+        </Button>
       </StButtonBox>
     </StCommentFormBox>
   );

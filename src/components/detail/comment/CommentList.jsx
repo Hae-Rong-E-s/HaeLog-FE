@@ -1,13 +1,26 @@
 import styled from "styled-components";
 import UserInfoContainer from "./UserInfoContainer";
 import Button from "../../elem/Button";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { __getComment } from "../../../redux/modules/commentSlice";
 
 const CommentList = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getComment());
+  }, []);
+
   const editButtons = {
     true: (
       <Stbuttons>
-        <Button>수정</Button>
-        <Button>삭제</Button>
+        <Button width="90px" fontSize="20px">
+          수정
+        </Button>
+        <Button width="90px" fontSize="20px">
+          삭제
+        </Button>
       </Stbuttons>
     ),
     false: null,
@@ -33,13 +46,19 @@ const CommentList = () => {
         profileFontSize="18px"
         textArea={<StTextArea />}
       />
+      <UserInfoContainer
+        width="90px"
+        height="90px"
+        profileFontSize="18px"
+        textArea={<StTextArea />}
+      />
     </div>
   );
 };
 
 export default CommentList;
 
-const StCommentList = styled.div``;
+// const StCommentList = styled.div``;
 
 const StTextArea = styled.textarea`
   width: 100%;
@@ -51,7 +70,7 @@ const StTextArea = styled.textarea`
   background-color: #262525;
   padding: 20px 20px 30px;
   font-size: 25px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 const Stbuttons = styled.div`
