@@ -30,4 +30,5 @@ const StLayout = styled.div`
   min-width: 650px;
   max-width: 1000px;
   flex: 1;
+  color: white;
 `;
