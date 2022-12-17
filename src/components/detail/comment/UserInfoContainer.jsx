@@ -6,20 +6,22 @@ const UserInfoContainer = ({
   profileFontSize,
   textArea,
   editButtons,
+  height,
 }) => {
   return (
     <StprofileContainer>
       <StProfileBox profileFontSize={profileFontSize}>
-        <Link to={`/login`}>
+        <Link to={`/`}>
           <StprofileImage
-            src="/imgs/github-mark-white.png"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEAm6C-SVkvqJQ4_eMz0_KcL3wTuKHo-wYQ&usqp=CAU"
             alt="profile"
             width={width}
+            height={height}
           />
         </Link>
         <div>
           <h1>Noa</h1>
-          <div>몰입</div>
+          <h3>몰입</h3>
         </div>
       </StProfileBox>
       {textArea}
@@ -33,6 +35,10 @@ export default UserInfoContainer;
 
 const StprofileImage = styled.img`
   width: ${(props) => props.width};
+  height: ${(props) => props.height};
+
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const StprofileContainer = styled.div`
@@ -46,6 +52,8 @@ const StProfileBox = styled.div`
   align-items: center;
   color: white;
   font-size: ${(props) => props.profileFontSize};
-  font-family: "Courier New", Courier, monospace;
   margin-bottom: 40px;
+  h3 {
+    font-family: "light";
+  }
 `;

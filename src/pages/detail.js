@@ -8,7 +8,7 @@ const Detail = () => {
     <div>
       <UserInfoContainer
         border="none"
-        height="1px"
+        height="170px"
         width="170px"
         profileFontSize="25px"
       />

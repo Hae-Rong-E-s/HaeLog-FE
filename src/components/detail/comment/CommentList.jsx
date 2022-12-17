@@ -16,8 +16,9 @@ const CommentList = () => {
   return (
     <div>
       <UserInfoContainer
-        width="70px"
-        profileFontSize="12px"
+        width="90px"
+        height="90px"
+        profileFontSize="18px"
         textArea={
           <StTextArea
             placeholder="수정 버튼 클릭에 따른 textarea배경화면 활성화 ,비활성화, userid
@@ -27,8 +28,9 @@ const CommentList = () => {
         editButtons={editButtons.true} // 나중에.true => comments.유저확인
       />
       <UserInfoContainer
-        width="70px"
-        profileFontSize="12px"
+        width="90px"
+        height="90px"
+        profileFontSize="18px"
         textArea={<StTextArea />}
       />
     </div>
