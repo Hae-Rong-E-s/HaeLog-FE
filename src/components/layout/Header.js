@@ -25,7 +25,7 @@ const MainTitle = styled.div`
 `;
 
 const HIcon = styled.img`
-  width: 25px;
+  width: 30px;
 `;
 
 const Header = () => {

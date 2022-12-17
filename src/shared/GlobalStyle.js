@@ -9,8 +9,18 @@ const GlobalStyle = createGlobalStyle`
   --color-deep-gray: #1D1E1F;
 }
 @font-face {
-   font-family: 'LINESeedKR-Bd';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+   font-family: 'bold';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'nomal';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Rg.woff2') format('woff2');
+
+}
+@font-face {
+    font-family: 'light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Th.woff2') format('woff2');
+
 }
   * {
     box-sizing: border-box;
@@ -18,8 +28,9 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     text-decoration: none;
     outline : none;
-    font-family:'LINESeedKR-Bd';
+    font-family:'nomal';
     background-color: var(--color-deep-gray);
+
   }
 
   body {

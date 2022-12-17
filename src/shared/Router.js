@@ -4,6 +4,7 @@ import Main from "../pages/main";
 import Login from "../pages/login";
 import Detail from "../pages/detail";
 import Layout from "../components/layout/Layout";
+import SignIn from "../pages/SignIn";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
             <Route path="/detail/:id" element={<Detail />} />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/signin" element={<SignIn />} />
         </Routes>
       </BrowserRouter>
     </>
