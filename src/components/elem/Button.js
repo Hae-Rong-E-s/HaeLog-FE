@@ -13,6 +13,9 @@ const Button = (props) => {
       onClick={props.onClick}
       fontSize={props.fontSize}
       margin={props.margin}
+      width={props.width}
+      fontFamily={props.fontFamily}
+      padding={props.padding}
     >
       {props.children}
     </StButton>
@@ -22,7 +25,7 @@ const Button = (props) => {
 export default Button;
 const StButton = styled.button`
   border-radius: 20px;
-  padding: 0.5rem 1.25rem;
+  padding: ${({ padding }) => padding || "0.5rem 1.25rem"};
   cursor: pointer;
   margin: ${({ margin }) => margin || "0 5px 0 0"};
   background-color: ${({ backgroundColor }) =>
@@ -30,7 +33,8 @@ const StButton = styled.button`
   color: ${({ color }) => color || "white"};
   border: none;
   font-size: ${({ fontSize }) => fontSize || "14px"};
-
+  font-family: ${({ fontFamily }) => fontFamily};
+  width: ${({ width }) => width};
   &:active {
     background: ${({ hover }) => hover || "var(--color-deep-red)"};
     color: white;
