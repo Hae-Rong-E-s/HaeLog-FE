@@ -11,6 +11,7 @@ const MarkDownStyle = styled.div`
   line-height: 2.5rem;
   overflow-y: ${({ overflow }) => overflow || "auto"};
   margin: ${({ margin }) => margin || "0"};
+  color: ${({ color }) => color || "gray"};
   cursor: ${({ cursor }) => cursor || "default"};
 `;
 
@@ -36,14 +37,22 @@ const TableContainer = styled.div`
 
 const BlockQutoeStyle = styled.blockquote`
   padding: 1.8rem;
-  border-left: 5px solid var(--color-point1);
+  border-left: 5px solid var(--color-deep-red);
   margin-left: 0;
-  background-color: whitesmoke;
-  color: var(--color-point1);
+  background-color: var(--color-light-gray);
+  color: white;
+  span {
+    color: white;
+    background-color: transparent;
+  }
 `;
 
 function BlockQutoe(children) {
-  return <BlockQutoeStyle>{children.children}</BlockQutoeStyle>;
+  return (
+    <BlockQutoeStyle>
+      <span>{children.children}</span>
+    </BlockQutoeStyle>
+  );
 }
 
 const MarkdownRender = ({
@@ -54,10 +63,12 @@ const MarkdownRender = ({
   overflow,
   cursor,
   onClick,
+  color,
 }) => {
   return (
     <MarkDownStyle
       fontsize={fontsize}
+      color={color}
       margin={margin}
       overflow={overflow}
       cursor={cursor}
