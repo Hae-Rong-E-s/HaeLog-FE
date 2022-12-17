@@ -20,12 +20,15 @@ const MainTitle = styled.div`
   display: flex;
   justify-content: center;
   div {
-    margin-left: 10px;
+    margin-left: 15px;
   }
 `;
 
 const HIcon = styled.img`
   width: 30px;
+  background-color: transparent;
+  filter: invert(15%) sepia(28%) saturate(6934%) hue-rotate(351deg)
+    brightness(99%) contrast(90%);
 `;
 
 const Header = () => {

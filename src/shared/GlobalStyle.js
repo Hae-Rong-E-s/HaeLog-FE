@@ -15,12 +15,10 @@ const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: 'nomal';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Rg.woff2') format('woff2');
-
 }
 @font-face {
     font-family: 'light';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Th.woff2') format('woff2');
-
 }
   * {
     box-sizing: border-box;

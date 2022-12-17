@@ -17,6 +17,7 @@ const Container = styled.div`
     &:nth-child(1) {
       font-size: 25px;
       margin-bottom: 5px;
+      font-family: "bold";
     }
   }
 `;
