@@ -1,16 +1,24 @@
 import styled from "styled-components";
 import UserInfoContainer from "./UserInfoContainer";
 import Button from "../../elem/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { __getComment } from "../../../redux/modules/commentSlice";
+import { useParams } from "react-router-dom";
 
 const CommentList = () => {
   const dispatch = useDispatch();
+  const param = useParams();
+  const commentId = param.id;
+
+  const { isLoading, error, comments } = useSelector((state) => state.comments);
+  console.log(isLoading);
+  console.log(error);
+  console.log(comments);
 
   useEffect(() => {
-    dispatch(__getComment());
-  }, []);
+    dispatch(__getComment(commentId));
+  }, [dispatch, commentId]);
 
   const editButtons = {
     true: (
@@ -32,33 +40,14 @@ const CommentList = () => {
         width="90px"
         height="90px"
         profileFontSize="18px"
-        textArea={
-          <StTextArea
-            placeholder="수정 버튼 클릭에 따른 textarea배경화면 활성화 ,비활성화, userid
-            matching 에따른 버튼 활성화 비활성화"
-          ></StTextArea>
-        }
+        textArea={<StTextArea />}
         editButtons={editButtons.true} // 나중에.true => comments.유저확인
-      />
-      <UserInfoContainer
-        width="90px"
-        height="90px"
-        profileFontSize="18px"
-        textArea={<StTextArea />}
-      />
-      <UserInfoContainer
-        width="90px"
-        height="90px"
-        profileFontSize="18px"
-        textArea={<StTextArea />}
       />
     </div>
   );
 };
 
 export default CommentList;
-
-// const StCommentList = styled.div``;
 
 const StTextArea = styled.textarea`
   width: 100%;
@@ -80,3 +69,18 @@ const Stbuttons = styled.div`
   gap: 20px;
   margin-bottom: 30px;
 `;
+
+{
+  /* <UserInfoContainer
+width="90px"
+height="90px"
+profileFontSize="18px"
+textArea={<StTextArea />}
+/>
+<UserInfoContainer
+width="90px"
+height="90px"
+profileFontSize="18px"
+textArea={<StTextArea />}
+/> */
+}

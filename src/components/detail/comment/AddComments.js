@@ -3,31 +3,41 @@ import Button from "../../elem/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { __postComment } from "../../../redux/modules/commentSlice";
+import {
+  __getComment,
+  __postComment,
+} from "../../../redux/modules/commentSlice";
 
 const AddComments = () => {
   const dispatch = useDispatch();
-  const { param } = useParams();
 
-  // 댓글 상태관리
-  const [addComment, setAddComment] = useState({
-    commentId: "",
-    nickname: "Noa",
-    commentContent: "",
-  });
+  const param = useParams();
+  const commentId = param.id; // url path에 입력된 값을 가져오기
 
+  // Network 요청에 대한 댓글 상태관리
+  const [comment, setComment] = useState("");
+
+  // Textarea 상태관리
   const onChangeHandler = (e) => {
-    setAddComment({ ...addComment, [e.target.name]: e.target.value });
+    // console.log(e.target.value)  // console.log("e.target.name: ", e.target.name); // setAddComment({ ...addComment, [e.target.name]: e.target.value });  -> commentContent : e.target.value
+    const { value } = e.target;
+    setComment(value);
   };
 
   // POST
   const onClickAddHandler = (e) => {
     e.preventDefault();
-    dispatch(__postComment({ ...addComment, commentId: param }));
-    setAddComment({
-      ...addComment,
-      commentContent: "",
-    });
+    if (comment.trim() === "") {
+      alert("댓글을 입력해주세요");
+      return;
+    }
+    if (!window.confirm("추가 하시겠습니까?")) {
+      return;
+    } else {
+      dispatch(__postComment({ comment, commentId })); //
+      // dispatch(__getComment(id));
+      setComment("");
+    }
   };
 
   return (
@@ -37,8 +47,7 @@ const AddComments = () => {
         <StTextArea
           required
           type="text"
-          name="commentContent"
-          value={addComment.commentContent}
+          value={comment}
           onChange={onChangeHandler}
         ></StTextArea>
       </StCommentForm>

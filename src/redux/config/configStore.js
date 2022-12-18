@@ -5,11 +5,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import editPost from "../modules/editPostSlice";
 import detailmainPost from "../modules/detailmianSlice";
+import comments from "../modules/commentSlice";
 
 const store = configureStore({
   reducer: {
     editPost: editPost,
     detailmainPost: detailmainPost,
+    comments: comments,
   },
 });
 
