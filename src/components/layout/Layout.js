@@ -20,10 +20,10 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const StLayout = styled.div`
-  margin: 0 auto;
   width: 85vw;
   min-width: 800px;
   max-width: 1200px;
