@@ -24,9 +24,9 @@ const Container = styled.div`
 
 const StLayout = styled.div`
   margin: 0 auto;
-  width: 80vw;
-  min-width: 650px;
-  max-width: 1000px;
+  width: 85vw;
+  min-width: 800px;
+  max-width: 1200px;
   flex: 1;
   color: white;
 `;

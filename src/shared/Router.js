@@ -4,7 +4,7 @@ import Main from "../pages/Main";
 import Login from "../pages/Login";
 import Detail from "../pages/Detail";
 import Layout from "../components/layout/Layout";
-import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
 import Create from "../pages/Create";
 
 const Router = () => {
@@ -19,7 +19,7 @@ const Router = () => {
           <Route path="/create" element={<Create />} />
           <Route path="/create/:id" element={<Create />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import SignInForm from "../components/signIn/SignInForm";
+import SignUpForm from "../components/signUp/SignUpForm";
 
 const Container = styled.div`
   display: flex;
@@ -9,12 +9,12 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <Container>
-      <SignInForm />
+      <SignUpForm />
     </Container>
   );
 };
 
-export default SignIn;
+export default SignUp;
