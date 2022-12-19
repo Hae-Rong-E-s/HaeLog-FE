@@ -12,8 +12,10 @@ const initialState = {
 export const __getComment = createAsyncThunk(
   "getComment",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
-      const data = await instance.get(`/post/${payload}`);
+      // const data = await instance.get(`?nickname=${payload.nickname}&postid=${payload.postId}`);
+      const data = await instance.get(`/post/${payload.postId}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -53,15 +55,10 @@ export const __postComment = createAsyncThunk(
   "postComment",
   async (payload, thunkAPI) => {
     console.log(payload);
-    const { addComment, commentId } = payload;
-    console.log(addComment);
-    console.log(commentId);
+    const { addComment, username } = payload;
 
     try {
-      const data = await instance.post(
-        `/post/${commentId}/comment`,
-        addComment
-      );
+      const data = await instance.post(`/post/${username}/comment`, addComment);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

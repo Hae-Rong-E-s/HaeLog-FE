@@ -4,18 +4,14 @@ import Button from "../../elem/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { __getComment } from "../../../redux/modules/commentSlice";
-import { useParams } from "react-router-dom";
 
-const CommentList = () => {
+const CommentList = ({ params, state }) => {
   const dispatch = useDispatch();
-  const param = useParams();
-  const commentId = param.id;
 
-  const { isLoading, error, comments } = useSelector((state) => state.comments);
-
+  const { isLoading, error, comments } = state;
   useEffect(() => {
-    dispatch(__getComment(commentId));
-  }, [dispatch, commentId]);
+    dispatch(__getComment(params));
+  }, [dispatch, params]);
 
   const editButtons = {
     true: (
