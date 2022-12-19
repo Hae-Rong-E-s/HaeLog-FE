@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Button from "../elem/Button";
-import { postLogin } from "../../core/api/login/queries";
+// import { postLogin } from "../../core/api/login/queries";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { changeField, initializeForm } from "../../redux/modules/loginSlice";
+import {
+  changeField,
+  initializeForm,
+  __postLogin,
+} from "../../redux/modules/loginSlice";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -12,6 +16,7 @@ const LoginForm = () => {
   const { form } = useSelector(({ login }) => ({
     form: login.login,
   }));
+  const result = useSelector(({ login }) => login.result);
 
   // 컴포넌트가 처음 렌더링 될 때 form 초기화
   useEffect(() => {
@@ -33,18 +38,13 @@ const LoginForm = () => {
   // 로그인 버튼
   const onClickToLoginHandler = (event) => {
     event.preventDefault();
-    console.log(form);
     if (form.username === "" || form.password === "") {
       alert("빈값을 입력해주세요!");
     } else {
-      postLogin(form).then((res) => {
-        if (res.result === "fail") {
-          alert(res.msg);
-        } else {
-          alert("로그인이 완료 되었습니다");
-          navigate("/");
-        }
-      });
+      dispatch(__postLogin(form));
+      if (result === "success") {
+        navigate("/");
+      }
     }
   };
 
