@@ -11,12 +11,7 @@ const CommentList = () => {
   const param = useParams();
   const commentId = param.id;
 
-  // const { isLoading, error, comments } = useSelector((state) => state.comments);
-  // console.log(isLoading);
-  // console.log(error);
-  // console.log(comments);
-  const comments = useSelector((state) => state.comments);
-  console.log(comments);
+  const { isLoading, error, comments } = useSelector((state) => state.comments);
 
   useEffect(() => {
     dispatch(__getComment(commentId));
@@ -38,13 +33,22 @@ const CommentList = () => {
 
   return (
     <div>
-      <UserInfoContainer
-        width="90px"
-        height="90px"
-        profileFontSize="18px"
-        textArea={<StTextArea />}
-        editButtons={editButtons.true} // 나중에.true => comments.유저확인
-      />
+      {comments.map((comment) => {
+        return (
+          <div>
+            <UserInfoContainer
+              username={comment.username}
+              createAt={comment.createAt}
+              key={comment.id}
+              width="90px"
+              height="90px"
+              profileFontSize="18px"
+              textArea={<StTextArea />}
+              editButtons={editButtons.true} // 나중에.true => comments.유저확인
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

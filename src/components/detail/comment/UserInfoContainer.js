@@ -7,6 +7,8 @@ const UserInfoContainer = ({
   textArea,
   editButtons,
   height,
+  username,
+  createAt,
 }) => {
   return (
     <StprofileContainer>
@@ -20,8 +22,8 @@ const UserInfoContainer = ({
           />
         </Link>
         <div>
-          <h1>Noa</h1>
-          <h3>몰입</h3>
+          <h1>{username}</h1>
+          <h3>{createAt}</h3>
         </div>
       </StProfileBox>
       {textArea}
