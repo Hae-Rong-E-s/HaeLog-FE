@@ -7,7 +7,6 @@ import {
   __getComment,
   __postComment,
 } from "../../../redux/modules/commentSlice";
-import add from "add";
 
 const AddComments = () => {
   const dispatch = useDispatch();
