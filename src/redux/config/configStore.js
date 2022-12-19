@@ -5,11 +5,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import editPost from "../modules/editPostSlice";
 import detailmainPost from "../modules/detailmainSlice";
+import login from "../modules/loginSlice";
 
 const store = configureStore({
   reducer: {
-    editPost: editPost,
-    detailmainPost: detailmainPost,
+    editPost,
+    detailmainPost,
+    login,
   },
 });
 
