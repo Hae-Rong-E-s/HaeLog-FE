@@ -6,6 +6,7 @@ import editPost from "../modules/editPostSlice";
 import detailmainPost from "../modules/detailmainSlice";
 import login from "../modules/loginSlice";
 import comments from "../modules/commentSlice";
+import myPage from "../modules/myPageSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,7 @@ const store = configureStore({
     detailmainPost,
     login,
     comments,
-
+    myPage,
   },
 });
 

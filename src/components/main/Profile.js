@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { __getMyPage } from "../../redux/modules/myPageSlice";
 
 const Container = styled.div`
   padding: 50px;
@@ -23,6 +25,15 @@ const Container = styled.div`
 `;
 
 const Profile = () => {
+  const dispatch = useDispatch();
+
+  const myInfo = useSelector((state) => state.myPage.data);
+  //console.log("myInfo", myInfo);
+
+  useEffect(() => {
+    dispatch(__getMyPage(1));
+  }, [dispatch]);
+
   return (
     <Container>
       <img
