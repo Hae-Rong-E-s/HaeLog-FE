@@ -2,17 +2,15 @@ import styled from "styled-components";
 import Button from "../../elem/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import {
   __getComment,
   __postComment,
 } from "../../../redux/modules/commentSlice";
 
-const AddComments = () => {
+const AddComments = ({ params }) => {
   const dispatch = useDispatch();
 
-  const param = useParams();
-  const commentId = param.id; // url path에 입력된 값을 가져오기
+  const commentId = params.postId; // url path에 입력된 값을 가져오기
 
   // Network 요청에 대한 댓글 상태관리
   const [addComment, setAddComment] = useState({
