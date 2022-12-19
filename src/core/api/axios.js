@@ -1,5 +1,5 @@
 import axios from "axios";
-import { serverUrl } from "../../redux/modules";
+import { serverUrl } from ".";
 
 // 헤더 없이 사용하는 경우
 export const instance = axios.create({

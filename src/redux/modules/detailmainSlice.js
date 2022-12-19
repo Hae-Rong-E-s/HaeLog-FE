@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { serverUrl } from ".";
+import { serverUrl } from "../../core/api";
 
 export const __getDetailmain = createAsyncThunk(
   "detailmainPost/getDetailmain",

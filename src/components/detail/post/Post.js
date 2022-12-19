@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../../../redux/modules";
+import { serverUrl } from "../../../core/api";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
-import { __getDetailmain } from "../../../redux/modules/detailmianSlice";
+import { __getDetailmain } from "../../../redux/modules/detailmainSlice";
 // 스타일
 import styled from "styled-components";
 // 컴포넌트

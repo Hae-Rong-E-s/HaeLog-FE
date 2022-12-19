@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { serverUrl } from ".";
+import { serverUrl } from "../../core/api";
 
 export const __getEditPost = createAsyncThunk(
   "editPost/getEditPost",

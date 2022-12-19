@@ -1,4 +1,4 @@
-import { baseURL } from "../axios";
+import { instance, baseURL } from "../axios";
 
 export const postLogin = async (post) => {
   try {

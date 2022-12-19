@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import uuid from "react-uuid";
-import { serverUrl } from "../../redux/modules";
+import { serverUrl } from "../../core/api";
 // 리덕스
 import { __getEditPost } from "../../redux/modules/editPostSlice";
 import { useDispatch, useSelector } from "react-redux";

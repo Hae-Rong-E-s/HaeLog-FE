@@ -63,6 +63,7 @@ const LoginForm = () => {
         <ButtonContainer></ButtonContainer>
         <form>
           <input
+            //name id로 쓸지 확인
             name="id"
             autoComplete="username"
             value={inputValue.id}
