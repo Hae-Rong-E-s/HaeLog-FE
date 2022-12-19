@@ -7,6 +7,7 @@ import {
   __getComment,
   __postComment,
 } from "../../../redux/modules/commentSlice";
+import add from "add";
 
 const AddComments = () => {
   const dispatch = useDispatch();
@@ -21,14 +22,13 @@ const AddComments = () => {
 
   // Textarea 상태관리
   const onChangeHandler = (e) => {
-    // console.log(e.target.value)  // console.log("e.target.name: ", e.target.name); // setAddComment({ ...addComment, [e.target.name]: e.target.value });  -> commentContent : e.target.value
-    setAddComment({ ...addComment, [e.target.name]: e.target.value });
+    setAddComment({ comment: e.target.value });
   };
 
   // POST
   const onClickAddHandler = (e) => {
     e.preventDefault();
-    if (addComment.comment === "") {
+    if (addComment.comment.trim() === "") {
       alert("댓글을 입력해주세요");
       return;
     }
@@ -36,7 +36,7 @@ const AddComments = () => {
       return;
     } else {
       dispatch(__postComment({ addComment, commentId }));
-      setAddComment({ comment: "" });
+      setAddComment({ comment: "" }); // 초기화
     }
   };
 
@@ -47,7 +47,6 @@ const AddComments = () => {
         <StTextArea
           required
           type="text"
-          name="comment"
           value={addComment.comment}
           onChange={onChangeHandler}
         ></StTextArea>
