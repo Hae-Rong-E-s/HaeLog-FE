@@ -2,82 +2,106 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "../elem/Button";
 // 리덕스
-import { __postSignUp } from "../../redux/modules/signUpSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  postCheckUsername,
-  postCheckNickname,
-} from "../../core/api/signUp/queries";
+  changeField,
+  initializeForm,
+  __postSignUp,
+  __postCheckId,
+  __postCheckNickname,
+} from "../../redux/modules/signUpSlice";
+import { useRef } from "react";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
-  const { result, msg } = useSelector((state) => state);
-  const [inputValue, setInputValue] = useState({
-    username: "",
-    password: "",
-    passwordCheck: "",
-    nickname: "",
-    desc: "",
-  });
-  const [isValid, setIsValid] = useState({
-    usernameValid: false,
-    nicknameVaild: false,
-  });
+  const inputLoginId = useRef(null);
+  const inputNickname = useRef(null);
+  const { form } = useSelector(({ signUpPost }) => ({
+    form: signUpPost.signUp,
+  }));
+  const result = useSelector(({ login }) => login.result);
+  const isLoginIdValid = useSelector(({ login }) => login.isLoginIdValid);
+  const isNicknameValid = useSelector(({ login }) => login.isNicknameValid);
+  // const [isValid, setIsValid] = useState({
+  //   usernameValid: false,
+  //   nicknameValid: false,
+  // });
+
+  console.log(form);
 
   const onChangeInputHandler = (event) => {
     const { name, value } = event.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
+    dispatch(
+      changeField({
+        form: "signUp",
+        key: name,
+        value,
+      })
+    );
   };
 
+  // Username 중복 찾기
   const onClickCheckUsername = (event) => {
     event.preventDefault();
-    postCheckUsername(inputValue.username).then((res) => {
-      if (res.result === "fail") {
-        alert(res.msg);
-        setInputValue({ ...inputValue, username: "" });
-        // useRef 활용해서 focus 해주기
-      } else {
-        alert("사용 가능한 아이디입니다");
-        setIsValid({ ...isValid, usernameValid: true });
-      }
-    });
+    dispatch(__postCheckId({ loginId: form.loginId }));
+
+    if (result !== "success") {
+      inputLoginId.current.focus();
+    }
+    // if (result === "success") {
+
+    // }
+    //   postCheckUsername(inputValue.username).then((res) => {
+    //     if (res.result === "fail") {
+    //       alert(res.msg);
+    //       setInputValue({ ...inputValue, username: "" });
+    //       // useRef 활용해서 focus 해주기
+    //     } else {
+    //       alert("사용 가능한 아이디입니다");
+    //       setIsValid({ ...isValid, usernameValid: true });
+    //     }
+    //   });
   };
+
+  // 닉네임 중복 찾기
   const onClickCheckNicknameId = (event) => {
     event.preventDefault();
-    postCheckNickname(inputValue.nickname).then((res) => {
-      if (res.result === "fail") {
-        alert(res.msg);
-        setInputValue({ ...inputValue, nickname: "" });
-        // useRef 활용해서 focus 해주기
-      } else {
-        alert("사용 가능한 닉네임입니다");
-        setIsValid({ ...isValid, nicknameVaild: true });
-      }
-    });
+    dispatch(__postCheckNickname({ nickname: form.nickname }));
+
+    if (result !== "success") {
+      inputLoginId.current.focus();
+    }
+    // postCheckNickname(inputValue.nickname).then((res) => {
+    //   if (res.result === "fail") {
+    //     alert(res.msg);
+    //     setInputValue({ ...inputValue, nickname: "" });
+    //     // useRef 활용해서 focus 해주기
+    //   } else {
+    //     alert("사용 가능한 닉네임입니다");
+    //     setIsValid({ ...isValid, nicknameValid: true });
+    //   }
+    // });
   };
 
   const onClickSignUpHandler = (event) => {
     event.preventDefault();
     if (
-      inputValue.username === "" ||
-      inputValue.password === "" ||
-      inputValue.passwordCheck === "" ||
-      inputValue.nickname === "" ||
-      inputValue.desc === ""
+      form.username === "" ||
+      form.password === "" ||
+      form.passwordCheck === "" ||
+      form.nickname === "" ||
+      form.desc === ""
     ) {
       alert("빈값을 입력해주세요!");
-    } else if (!isValid.usernameValid) {
+    } else if (!isLoginIdValid) {
       alert("id 중복을 확인해주세요");
-    } else if (!isValid.nicknameVaild) {
+    } else if (!isNicknameValid) {
       alert("닉네임 중복을 확인해주세요");
     } else {
-      dispatch(__postSignUp(inputValue), [dispatch]);
-      if (result === "success") {
-        alert(msg);
-      }
+      dispatch(__postSignUp(form), [dispatch]);
+      // if (result === "success") {
+      //   alert(msg);
+      // }
     }
   };
 
@@ -86,13 +110,15 @@ const SignUpForm = () => {
       <h1>환영합니다!</h1>
       <h3>기본 회원 정보를 등록해주세요</h3>
       <form>
-        <label htmlFor="username">아이디</label>
+        <label htmlFor="loginId">아이디</label>
         <div>
           <input
-            name="username"
-            value={inputValue.username}
-            id="username"
+            name="loginId"
+            value={form.loginId}
+            autoComplete="username"
+            id="loginId"
             onChange={onChangeInputHandler}
+            ref={inputLoginId}
             placeholder="영문 대문자, 소문자, 숫자 포함"
           ></input>
           <Button
@@ -107,7 +133,8 @@ const SignUpForm = () => {
         <input
           type="password"
           name="password"
-          value={inputValue.password}
+          autoComplete="new-password"
+          value={form.password}
           id="password"
           onChange={onChangeInputHandler}
           placeholder="영문 대문자, 소문자, 숫자 포함"
@@ -116,21 +143,23 @@ const SignUpForm = () => {
         <input
           type="password"
           name="passwordCheck"
-          value={inputValue.passwordCheck}
+          autoComplete="new-password"
+          value={form.passwordCheck}
           id="passwordCheck"
           onChange={onChangeInputHandler}
         ></input>
         <p>
-          {inputValue.password !== inputValue.passwordCheck &&
-            inputValue.passwordCheck !== "" &&
+          {form.password !== form.passwordCheck &&
+            form.passwordCheck !== "" &&
             "비밀번호와 일치하지 않습니다"}
         </p>
         <label htmlFor="nickname">닉네임</label>
         <div>
           <input
             name="nickname"
-            value={inputValue.nickname}
+            value={form.nickname}
             id="nickname"
+            ref={inputNickname}
             onChange={onChangeInputHandler}
           ></input>
           <Button
@@ -141,11 +170,11 @@ const SignUpForm = () => {
             중복체크
           </Button>
         </div>
-        <label htmlFor="desc">한줄 소개</label>
+        <label htmlFor="description">한줄 소개</label>
         <input
-          name="desc"
-          value={inputValue.desc}
-          id="desc"
+          name="description"
+          value={form.description}
+          id="description"
           onChange={onChangeInputHandler}
         ></input>
       </form>
@@ -165,6 +194,8 @@ const SignUpForm = () => {
 const Container = styled.div`
   width: 400px;
   color: white;
+  margin-top: 100px;
+  margin-bottom: 100px;
   h1 {
     margin-bottom: 10px;
     font-family: bold;

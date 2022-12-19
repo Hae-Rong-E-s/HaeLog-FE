@@ -4,14 +4,7 @@ import { instance } from "../../core/api/axios";
 // 입력을하고 -> 상태에 넣고 -> dispatch로 보내는데 미들웨어  THUnk 통신신먼저하고  그 통신의 응답을 받아서 이제 reducer 보내고 그걸 redux 를이용해 관리-> useselector 로 가져닫쓰는
 
 const initialState = {
-  comments: [
-    {
-      id: "0",
-      username: "개똥이",
-      reply: "초기값",
-      createAt: "2022-12-19",
-    },
-  ],
+  comments: [],
   isLoading: false,
   error: null,
 };
@@ -87,19 +80,9 @@ export const commentsSlice = createSlice({
     },
     [__getComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // console.log("state:", state);
-      console.log("action:", action.payload.data);
-      const { comments } = state;
-      const tempComments = [...comments];
+      // console.log("action:", action.payload.data);
       const commentList = action.payload.data.commnetList;
-      const newComments = tempComments.concat(commentList);
-      console.log("commentList:", commentList);
-      return { ...state, comments: newComments };
-      // state.comments = {
-      //   commentId: action.payload.commentId,
-      //   nickname: action.payload.nickname,
-      //   commentContent: action.payload.commentContent,
-      // };
+      state.comments = [...commentList];
     },
     [__getComment.rejected]: (state, action) => {
       state.isLoading = false;
