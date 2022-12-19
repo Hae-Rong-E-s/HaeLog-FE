@@ -5,8 +5,6 @@ import SignUpForm from "../components/signUp/SignUpForm";
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
 `;
 
 const SignUp = () => {

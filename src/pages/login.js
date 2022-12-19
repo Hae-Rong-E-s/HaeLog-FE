@@ -54,12 +54,12 @@ const Login = () => {
         <LinkContainer>
           <h5>소셜 계정으로 로그인</h5>
           <LinkOAuth />
-          <p>
+          <div>
             아직 회원이 아니신가요?
             <Link>
               <LinkSignUp>회원가입</LinkSignUp>
             </Link>
-          </p>
+          </div>
         </LinkContainer>
       </LoginContainer>
     </Container>
