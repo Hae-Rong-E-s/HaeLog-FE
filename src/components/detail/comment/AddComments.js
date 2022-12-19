@@ -15,28 +15,28 @@ const AddComments = () => {
   const commentId = param.id; // url path에 입력된 값을 가져오기
 
   // Network 요청에 대한 댓글 상태관리
-  const [comment, setComment] = useState("");
+  const [addComment, setAddComment] = useState({
+    comment: "",
+  });
 
   // Textarea 상태관리
   const onChangeHandler = (e) => {
     // console.log(e.target.value)  // console.log("e.target.name: ", e.target.name); // setAddComment({ ...addComment, [e.target.name]: e.target.value });  -> commentContent : e.target.value
-    const { value } = e.target;
-    setComment(value);
+    setAddComment({ ...addComment, [e.target.name]: e.target.value });
   };
 
   // POST
   const onClickAddHandler = (e) => {
     e.preventDefault();
-    if (comment.trim() === "") {
+    if (addComment.comment === "") {
       alert("댓글을 입력해주세요");
       return;
     }
     if (!window.confirm("추가 하시겠습니까?")) {
       return;
     } else {
-      dispatch(__postComment({ comment, commentId })); //
-      // dispatch(__getComment(id));
-      setComment("");
+      dispatch(__postComment({ addComment, commentId }));
+      setAddComment({ comment: "" });
     }
   };
 
@@ -47,7 +47,8 @@ const AddComments = () => {
         <StTextArea
           required
           type="text"
-          value={comment}
+          name="comment"
+          value={addComment.comment}
           onChange={onChangeHandler}
         ></StTextArea>
       </StCommentForm>
