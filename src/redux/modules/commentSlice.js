@@ -60,18 +60,19 @@ export const __patchComment = createAsyncThunk(
 export const __postComment = createAsyncThunk(
   "postComment",
   async (payload, thunkAPI) => {
-    // console.log(payload);
-    // console.log(payload.addComment);
-    // console.log(payload.commentId);
+    console.log(payload);
     const { addComment, commentId } = payload;
+    console.log(addComment);
+    console.log(commentId);
+
     try {
       const data = await axios.post(
         `${serverUrl}/post/${commentId}/comment`,
         addComment
       );
-      return thunkAPI.fulfillWithValue("success");
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      return thunkAPI.rejectWithValue("error");
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -95,6 +96,19 @@ export const commentsSlice = createSlice({
     },
     [__getComment.rejected]: (state, action) => {
       state.isLoading = false;
+      state.error = action.payload;
+    },
+    [__postComment.pending]: (state) => {
+      console.log(state);
+      state.isLoading = true;
+    },
+    [__postComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      console.log(state, action);
+    },
+    [__postComment.rejected]: (state, action) => {
+      state.isLoading = false;
+      console.log(state, action);
       state.error = action.payload;
     },
     // 댓글 삭제

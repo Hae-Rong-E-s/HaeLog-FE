@@ -12,9 +12,9 @@ const CommentList = () => {
   const commentId = param.id;
 
   const { isLoading, error, comments } = useSelector((state) => state.comments);
-  console.log(isLoading);
-  console.log(error);
-  console.log(comments);
+  // console.log(isLoading);
+  // console.log(error);
+  // console.log(comments);
 
   useEffect(() => {
     dispatch(__getComment(commentId));
