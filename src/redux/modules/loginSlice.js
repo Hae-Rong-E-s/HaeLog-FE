@@ -10,6 +10,7 @@ const initialState = {
   },
   result: null,
   error: null,
+  nickname: null,
 };
 
 // thunk
@@ -42,8 +43,13 @@ const loginSlice = createSlice({
   },
   extraReducers: {
     [__postLogin.fulfilled]: (state, action) => {
+      // 백에 수정 요청 필요 요청!!!
+      // nickname 안들어옴
+      console.log(action.payload);
+
       if (action.payload.result === "success") {
         state.result = "success";
+        state.nickname = action.payload.data.nickname;
         alert(action.payload.msg);
       } else {
         alert(action.payload.msg);

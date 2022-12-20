@@ -22,6 +22,8 @@ export const __postSignUp = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await instance.post("/member/signup", payload);
+      // console.log(data);
+      // const { data } = await instance.post("/member/signup", payload);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       alert("회원가입에 실패하였습니다");
@@ -33,8 +35,11 @@ export const __postSignUp = createAsyncThunk(
 export const __postCheckId = createAsyncThunk(
   "signUpPost/postCheckId",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
-      const { data } = await instance.post("/member/signup/loginId", payload);
+      const { data } = await instance.post("/member/signup/loginid", payload);
+      // console.log(data);
+
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -67,7 +72,9 @@ const signUpSlice = createSlice({
       [form]: initialState[form],
     }),
   },
+
   extraReducers: {
+    // 회원가입 버튼 클릭
     [__postSignUp.fulfilled]: (state, action) => {
       if (action.payload.result === "success") {
         state.result = "success";
@@ -85,6 +92,7 @@ const signUpSlice = createSlice({
       if (action.payload.result === "success") {
         state.result = "success";
         state.isLoginIdValid = true;
+        console.log(state.isLoginIdValid);
         alert(action.payload.msg);
       } else {
         alert(action.payload.msg);
@@ -99,6 +107,7 @@ const signUpSlice = createSlice({
       if (action.payload.result === "success") {
         state.result = "success";
         state.isNicknameValid = true;
+        console.log(state.isNicknameValid);
         alert(action.payload.msg);
       } else {
         alert(action.payload.msg);

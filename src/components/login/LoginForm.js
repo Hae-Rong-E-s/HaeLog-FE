@@ -17,6 +17,7 @@ const LoginForm = () => {
     form: login.login,
   }));
   const result = useSelector(({ login }) => login.result);
+  const nickname = useSelector(({ login }) => login.nickname);
 
   // 컴포넌트가 처음 렌더링 될 때 form 초기화
   useEffect(() => {
@@ -43,7 +44,7 @@ const LoginForm = () => {
     } else {
       dispatch(__postLogin(form));
       if (result === "success") {
-        navigate("/");
+        navigate(`/@${nickname}`);
       }
     }
   };
