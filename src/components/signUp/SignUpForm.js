@@ -58,7 +58,7 @@ const SignUpForm = () => {
     if (result !== "success") {
       inputLoginId.current.focus();
     }
-    //test
+    // test
     // postCheckNickname(inputValue.nickname).then((res) => {
     //   if (res.result === "fail") {
     //     alert(res.msg);
