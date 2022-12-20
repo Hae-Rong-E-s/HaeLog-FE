@@ -25,8 +25,11 @@ export const __getMyPage = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await instance.get(`/post/user/${payload}`);
-      console.log("payload", payload);
-      return thunkAPI.fulfillWithValue(data.data);
+      console.log("data", data);
+      return thunkAPI.fulfillWithValue(data.data.data.responsePostListDto);
+      // const data = await instance.get(`/member/${payload}`);
+      // console.log("data", data);
+      // return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -43,8 +46,9 @@ export const myPageSlice = createSlice({
       state.isLoading = true;
     },
     [__getMyPage.fulfilled]: (state, action) => {
+      // console.log("action", action.payload);
       state.isLoading = false;
-      state.plans = action.payload;
+      state.data = action.payload;
     },
     [__getMyPage.rejected]: (state, action) => {
       state.isLoading = false;
