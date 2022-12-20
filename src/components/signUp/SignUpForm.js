@@ -11,17 +11,23 @@ import {
   __postCheckNickname,
 } from "../../redux/modules/signUpSlice";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
   const inputLoginId = useRef(null);
   const inputNickname = useRef(null);
+  const navigate = useNavigate();
   const { form } = useSelector(({ signUpPost }) => ({
     form: signUpPost.signUp,
   }));
-  const result = useSelector(({ login }) => login.result);
-  const isLoginIdValid = useSelector(({ login }) => login.isLoginIdValid);
-  const isNicknameValid = useSelector(({ login }) => login.isNicknameValid);
+  const result = useSelector(({ signUpPost }) => signUpPost.result);
+  const isLoginIdValid = useSelector(
+    ({ signUpPost }) => signUpPost.isLoginIdValid
+  );
+  const isNicknameValid = useSelector(
+    ({ signUpPost }) => signUpPost.isNicknameValid
+  );
 
   // 컴포넌트 초기값
   // useEffect(() => dispatch(initializeForm("signUp")), [dispatch]);
@@ -42,8 +48,7 @@ const SignUpForm = () => {
   const onClickCheckUsername = (event) => {
     event.preventDefault();
     dispatch(__postCheckId({ loginId: form.loginId }));
-
-    if (result !== "success") {
+    if (isLoginIdValid !== true) {
       inputLoginId.current.focus();
     }
   };
@@ -52,15 +57,16 @@ const SignUpForm = () => {
   const onClickCheckNicknameId = (event) => {
     event.preventDefault();
     dispatch(__postCheckNickname({ nickname: form.nickname }));
-
     if (isNicknameValid !== true) {
-      inputLoginId.current.focus();
+      inputNickname.current.focus();
     }
   };
 
   // 회원가입 버튼 클릭
   const onClickSignUpHandler = (event) => {
     event.preventDefault();
+    console.log(isLoginIdValid);
+    console.log(isNicknameValid);
     if (
       form.username === "" ||
       form.password === "" ||
@@ -74,10 +80,17 @@ const SignUpForm = () => {
     } else if (!isNicknameValid) {
       alert("닉네임 중복을 확인해주세요");
     } else {
-      dispatch(__postSignUp(form), [dispatch]);
-      // if (result === "success") {
-      //   alert(msg);
-      // }
+      const payloadForm = {
+        loginId: form.loginId,
+        password: form.password,
+        nickname: form.nickname,
+        description: form.description,
+      };
+      dispatch(__postSignUp(payloadForm), [dispatch]);
+      // console.log(result)
+      if (result === "success") {
+        navigate("/login");
+      }
     }
   };
 
