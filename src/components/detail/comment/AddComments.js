@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Button from "../../elem/Button";
+import UserInfoContainer from "./UserInfoContainer";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   __getComment,
   __postComment,
@@ -10,22 +12,23 @@ import {
 const AddComments = ({ params }) => {
   const dispatch = useDispatch();
 
-  const commentId = params.postId; // url path에 입력된 값을 가져오기
+  // url path에 입력된 값을 가져오기
+  const commentId = params.postId;
 
   // Network 요청에 대한 댓글 상태관리
   const [addComment, setAddComment] = useState({
-    comment: "",
+    content: "",
   });
 
   // Textarea 상태관리
   const onChangeHandler = (e) => {
-    setAddComment({ comment: e.target.value });
+    setAddComment({ content: e.target.value });
   };
 
   // POST
   const onClickAddHandler = (e) => {
     e.preventDefault();
-    if (addComment.comment.trim() === "") {
+    if (addComment.content.trim() === "") {
       alert("댓글을 입력해주세요");
       return;
     }
@@ -33,32 +36,36 @@ const AddComments = ({ params }) => {
       return;
     } else {
       dispatch(__postComment({ addComment, commentId }));
-      setAddComment({ comment: "" }); // 초기화
+      setAddComment({ content: "" }); // 초기화
     }
   };
 
+  // 현재 로그인한 user의 닉네임과, 한줄평
+
   return (
-    <StCommentFormBox>
-      <div>5개의 댓글</div>
-      <StCommentForm>
-        <StTextArea
-          required
-          type="text"
-          value={addComment.comment}
-          onChange={onChangeHandler}
-        ></StTextArea>
-      </StCommentForm>
-      <StButtonBox>
-        <Button
-          width="120px"
-          fontSize="20px"
-          type="button"
-          onClick={onClickAddHandler}
-        >
-          댓글 작성
-        </Button>
-      </StButtonBox>
-    </StCommentFormBox>
+    <>
+      <UserInfoContainer height="170px" width="170px" profileFontSize="25px" />
+      <StCommentFormBox>
+        <StCommentForm>
+          <StTextArea
+            required
+            type="text"
+            value={addComment.content}
+            onChange={onChangeHandler}
+          ></StTextArea>
+        </StCommentForm>
+        <StButtonBox>
+          <Button
+            width="120px"
+            fontSize="20px"
+            type="button"
+            onClick={onClickAddHandler}
+          >
+            댓글 작성
+          </Button>
+        </StButtonBox>
+      </StCommentFormBox>
+    </>
   );
 };
 

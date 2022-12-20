@@ -1,88 +1,59 @@
-import styled from "styled-components";
-import UserInfoContainer from "./UserInfoContainer";
-import Button from "../../elem/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import EditComment from "./EditComment";
+import { useDispatch } from "react-redux";
 import { __getComment } from "../../../redux/modules/commentSlice";
+import UserInfoContainer from "./UserInfoContainer";
+// 댓글 수정 부분
+//1. 내가 작성한 댓글에만 버튼이 노출되도록 -> 백으로 부터 boolen 데이터를 받기로했다 -> true면 버튼이 노출되도록 false 면 버튼 노출 X
+//2. 댓글 수정 버튼 클릭시 -> 해당 댓글의 textarea 활성화 (textarea 활성화 비활성화 상태 관리 하나 필요 ) -> textarea에 입력하는 값 onchange event.target.value 로 받아와서
+// -> 받아온 값을 새로운 상태에 넣어서 patch 보냄 (새로 수정한 comment에 대한 상태 관리 하나 필요 )
+// 그럼 이 과정에서 어떠한 로직이 필요하냐? -> 수정하려는 그 코멘트와( onChange로  id 값 가져와서  ) useSeletor로 comments들을 싹 가져와서 그중에 수정하려는 코멘트의 id 값을 찾아서
+// {변경후} >
 
 const CommentList = ({ params, state }) => {
+  //commentSlice Store에 저장되있는 값들
+  const { isLoading, error, comments } = state;
   const dispatch = useDispatch();
 
-  const { isLoading, error, comments } = state;
-  useEffect(() => {
-    dispatch(__getComment(params));
-  }, [dispatch, params]);
+  // useEffect(() => {
+  //   dispatch(__getComment(params));
+  // }, [dispatch, params]);
 
-  const editButtons = {
-    true: (
-      <Stbuttons>
-        <Button width="90px" fontSize="20px">
-          수정
-        </Button>
-        <Button width="90px" fontSize="20px">
-          삭제
-        </Button>
-      </Stbuttons>
-    ),
-    false: null,
-  };
+  // if (isLoading) {
+  //   return <div>로딩 중....</div>;
+  // }
+  console.log(params);
+  console.log(state);
+
+  // if (error) {
+  //   return <div>{error.message}</div>;
+  // }
 
   return (
     <div>
-      {comments.map((comment) => {
-        return (
-          <div>
-            <UserInfoContainer
-              username={comment.username}
-              createAt={comment.createAt}
-              key={comment.id}
-              width="90px"
-              height="90px"
-              profileFontSize="18px"
-              textArea={<StTextArea />}
-              editButtons={editButtons.true} // 나중에.true => comments.유저확인
-            />
-          </div>
-        );
-      })}
+      {comments &&
+        comments.map((comment) => {
+          if (true) {
+            return (
+              <div>
+                <UserInfoContainer
+                  username={comment.username}
+                  createAt={comment.createAt}
+                  key={comment.id}
+                  width="90px"
+                  height="90px"
+                  profileFontSize="18px"
+                />
+                <EditComment
+                  params={params}
+                  comment={comment}
+                  key={comment.id}
+                ></EditComment>
+              </div>
+            );
+          }
+        })}
     </div>
   );
 };
 
 export default CommentList;
-
-const StTextArea = styled.textarea`
-  width: 100%;
-  min-height: 150px;
-  resize: none;
-  border-radius: 4px;
-  border: 1px solid #2a2a2a;
-  color: white;
-  background-color: #262525;
-  padding: 20px 20px 30px;
-  font-size: 25px;
-  margin-bottom: 30px;
-`;
-
-const Stbuttons = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 20px;
-  margin-bottom: 30px;
-`;
-
-{
-  /* <UserInfoContainer
-width="90px"
-height="90px"
-profileFontSize="18px"
-textArea={<StTextArea />}
-/>
-<UserInfoContainer
-width="90px"
-height="90px"
-profileFontSize="18px"
-textArea={<StTextArea />}
-/> */
-}
