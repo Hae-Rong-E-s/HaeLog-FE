@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "../../core/api/axios";
-// import { useNavigate } from "react-router-dom";
 
 //초기값 설정
 const initialState = {
@@ -18,7 +17,11 @@ export const __postLogin = createAsyncThunk(
   "login/postLogin",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await instance.post(`/member/login`, payload);
+      const { headers, data } = await instance.post(`/member/login`, payload);
+      console.log(headers);
+      // accesstoken 확인
+      document.cookie = `id = ${headers.accesstoken}`;
+      // localStorage.setItem("id", headers.Authorization);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       // error 처리 해주기
@@ -46,10 +49,8 @@ const loginSlice = createSlice({
       // 백에 수정 요청 필요 요청!!!
       // nickname 안들어옴
       console.log(action.payload);
-
       if (action.payload.result === "success") {
         state.result = "success";
-        state.nickname = action.payload.data.nickname;
         alert(action.payload.msg);
       } else {
         alert(action.payload.msg);
