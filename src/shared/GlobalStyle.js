@@ -13,32 +13,26 @@ const GlobalStyle = createGlobalStyle`
    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'nomal';
+  font-family: 'normal';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Rg.woff2') format('woff2');
 }
 @font-face {
     font-family: 'light';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Th.woff2') format('woff2');
 }
-  * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    text-decoration: none;
-    outline : none;
-    font-family:'nomal';
-    background-color: var(--color-deep-gray);
-    color: white;
-  }
 
-  body {
-    width: 100vw;
-    height: 100vh;
-  }
-
-  html {
-    font-size: 16px;
-  }
+body {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  outline : none;
+  font-family:'normal';
+  background-color: var(--color-deep-gray);
+  color: white;
+}
 `;
 
 export default GlobalStyle;
