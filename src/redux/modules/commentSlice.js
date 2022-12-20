@@ -12,9 +12,11 @@ const initialState = {
 export const __getComment = createAsyncThunk(
   "getComment",
   async (payload, thunkAPI) => {
-    console.log(payload);
     try {
-      // const data = await instance.get(`?nickname=${payload.nickname}&postid=${payload.postId}`);
+      console.log(payload);
+      // const data = await instance.get(
+      //   `?nickname=${payload.nickname}&postid=${payload.postId}`
+      // );
       const data = await instance.get(`/post/${payload.postId}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -27,7 +29,7 @@ export const __delComment = createAsyncThunk(
   "delComment",
   async (payload, thunkAPI) => {
     try {
-      await instance.delete(`/post/post/comment/${payload}`);
+      await instance.delete(`/comment/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue("error");
@@ -40,10 +42,7 @@ export const __patchComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     const { editComment, commentId } = payload;
     try {
-      const data = await instance.patch(
-        `/post/post/comment/${commentId}`,
-        editComment
-      );
+      const data = await instance.patch(`/comment/${commentId}`, editComment);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -55,10 +54,13 @@ export const __postComment = createAsyncThunk(
   "postComment",
   async (payload, thunkAPI) => {
     console.log(payload);
-    const { addComment, username } = payload;
+    const { addComment, commentId } = payload;
 
     try {
-      const data = await instance.post(`/post/${username}/comment`, addComment);
+      const data = await instance.post(
+        `/post/${commentId}/comment`,
+        addComment
+      );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -110,11 +112,9 @@ export const commentsSlice = createSlice({
       state.comments = state.comments.filter(
         (comment) => comment.commentId !== action.payload
       );
-      state.msg = "success";
     },
     [__delComment.rejected]: (state, action) => {
       state.isLoading = false;
-      state.msg = "error";
     },
     // 댓글 수정
     [__patchComment.pending]: (state) => {

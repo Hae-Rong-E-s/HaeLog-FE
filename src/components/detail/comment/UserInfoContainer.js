@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 const UserInfoContainer = ({
   width,
   profileFontSize,
-  textArea,
-  editButtons,
   height,
   username,
   createAt,
@@ -13,7 +11,7 @@ const UserInfoContainer = ({
   return (
     <StprofileContainer>
       <StProfileBox profileFontSize={profileFontSize}>
-        <Link to={`/`}>
+        <Link to={`/@nickname`}>
           <StprofileImage
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEAm6C-SVkvqJQ4_eMz0_KcL3wTuKHo-wYQ&usqp=CAU"
             alt="profile"
@@ -26,8 +24,6 @@ const UserInfoContainer = ({
           <h3>{createAt}</h3>
         </div>
       </StProfileBox>
-      {textArea}
-      {editButtons}
       <hr />
     </StprofileContainer>
   );
