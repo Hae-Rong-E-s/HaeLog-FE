@@ -6,7 +6,6 @@ const ContentList = () => {
   return (
     <>
       <Content />
-      <Content />
     </>
   );
 };
