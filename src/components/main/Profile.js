@@ -28,7 +28,7 @@ const Container = styled.div`
 const Profile = () => {
   const dispatch = useDispatch();
   const param = useParams();
-  console.log("param", param);
+  //console.log("param", param);
 
   useEffect(() => {
     dispatch(__getMyPage(param.nickname));
@@ -41,10 +41,13 @@ const Profile = () => {
     <Container>
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEAm6C-SVkvqJQ4_eMz0_KcL3wTuKHo-wYQ&usqp=CAU"
+        // src={myInfo[0].profileImage}
         alt="profileimg"
       ></img>
       <div>
-        <div>tom</div>
+        {/* <div>{myInfo[0].nickname}</div> */}
+        {/* <div>{myInfo[0].description}</div> */}
+        <div>작성자</div>
         <div>나의 코딩 블로그</div>
       </div>
     </Container>
