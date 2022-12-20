@@ -35,7 +35,7 @@ const Profile = () => {
   }, [dispatch, param.nickname]);
 
   const myInfo = useSelector((state) => state.myPage.data);
-  console.log("myInfo", myInfo);
+  //console.log("myInfo", myInfo);
 
   return (
     <Container>
