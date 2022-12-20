@@ -5,7 +5,7 @@ import { instance } from "../../core/api/axios";
 //초기값 설정
 const initialState = {
   login: {
-    username: "",
+    loginId: "",
     password: "",
   },
   result: null,

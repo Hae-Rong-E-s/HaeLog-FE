@@ -55,14 +55,15 @@ const LoginForm = () => {
         <form>
           <input
             //name id로 쓸지 확인
-            name="username"
+            name="loginId"
             autoComplete="username"
-            value={form.username}
+            value={form.loginId}
             onChange={onChangeInputHandler}
             placeholder="아이디를 입력해주세요"
           ></input>
           <input
             name="password"
+            type="password"
             autoComplete="new-password"
             value={form.password}
             onChange={onChangeInputHandler}
