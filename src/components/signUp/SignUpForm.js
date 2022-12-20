@@ -48,19 +48,6 @@ const SignUpForm = () => {
     if (result !== "success") {
       inputLoginId.current.focus();
     }
-    // if (result === "success") {
-
-    // }
-    //   postCheckUsername(inputValue.username).then((res) => {
-    //     if (res.result === "fail") {
-    //       alert(res.msg);
-    //       setInputValue({ ...inputValue, username: "" });
-    //       // useRef 활용해서 focus 해주기
-    //     } else {
-    //       alert("사용 가능한 아이디입니다");
-    //       setIsValid({ ...isValid, usernameValid: true });
-    //     }
-    //   });
   };
 
   // 닉네임 중복 찾기
@@ -71,6 +58,7 @@ const SignUpForm = () => {
     if (result !== "success") {
       inputLoginId.current.focus();
     }
+    //test
     // postCheckNickname(inputValue.nickname).then((res) => {
     //   if (res.result === "fail") {
     //     alert(res.msg);
