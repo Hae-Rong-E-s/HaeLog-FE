@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { __getMyPage } from "../../redux/modules/myPageSlice";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   padding: 50px;
@@ -26,13 +27,15 @@ const Container = styled.div`
 
 const Profile = () => {
   const dispatch = useDispatch();
-
-  const myInfo = useSelector((state) => state.myPage.data);
-  //console.log("myInfo", myInfo);
+  const param = useParams();
+  console.log("param", param);
 
   useEffect(() => {
-    dispatch(__getMyPage(1));
-  }, [dispatch]);
+    dispatch(__getMyPage(param.nickname));
+  }, [dispatch, param.nickname]);
+
+  const myInfo = useSelector((state) => state.myPage.data);
+  console.log("myInfo", myInfo);
 
   return (
     <Container>
