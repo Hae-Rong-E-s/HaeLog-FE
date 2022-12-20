@@ -21,7 +21,7 @@ export const __postLogin = createAsyncThunk(
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       // error 처리 해주기
-      alert("로그인에 실패하였습니다");
+      alert("로그인에 실패하였습니다!");
       return thunkAPI.rejectWithValue(error);
     }
   }
