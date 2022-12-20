@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../elem/Button";
 // 리덕스
@@ -22,13 +22,11 @@ const SignUpForm = () => {
   const result = useSelector(({ login }) => login.result);
   const isLoginIdValid = useSelector(({ login }) => login.isLoginIdValid);
   const isNicknameValid = useSelector(({ login }) => login.isNicknameValid);
-  // const [isValid, setIsValid] = useState({
-  //   usernameValid: false,
-  //   nicknameValid: false,
-  // });
 
-  console.log(form);
+  // 컴포넌트 초기값
+  // useEffect(() => dispatch(initializeForm("signUp")), [dispatch]);
 
+  // input값 수정
   const onChangeInputHandler = (event) => {
     const { name, value } = event.target;
     dispatch(
@@ -48,19 +46,6 @@ const SignUpForm = () => {
     if (result !== "success") {
       inputLoginId.current.focus();
     }
-    // if (result === "success") {
-
-    // }
-    //   postCheckUsername(inputValue.username).then((res) => {
-    //     if (res.result === "fail") {
-    //       alert(res.msg);
-    //       setInputValue({ ...inputValue, username: "" });
-    //       // useRef 활용해서 focus 해주기
-    //     } else {
-    //       alert("사용 가능한 아이디입니다");
-    //       setIsValid({ ...isValid, usernameValid: true });
-    //     }
-    //   });
   };
 
   // 닉네임 중복 찾기
@@ -68,21 +53,12 @@ const SignUpForm = () => {
     event.preventDefault();
     dispatch(__postCheckNickname({ nickname: form.nickname }));
 
-    if (result !== "success") {
+    if (isNicknameValid !== true) {
       inputLoginId.current.focus();
     }
-    // postCheckNickname(inputValue.nickname).then((res) => {
-    //   if (res.result === "fail") {
-    //     alert(res.msg);
-    //     setInputValue({ ...inputValue, nickname: "" });
-    //     // useRef 활용해서 focus 해주기
-    //   } else {
-    //     alert("사용 가능한 닉네임입니다");
-    //     setIsValid({ ...isValid, nicknameValid: true });
-    //   }
-    // });
   };
 
+  // 회원가입 버튼 클릭
   const onClickSignUpHandler = (event) => {
     event.preventDefault();
     if (
@@ -119,7 +95,7 @@ const SignUpForm = () => {
             id="loginId"
             onChange={onChangeInputHandler}
             ref={inputLoginId}
-            placeholder="영문 대문자, 소문자, 숫자 포함"
+            placeholder="영문 소문자, 숫자가 모두 포함된 4~12자리로 작성해주세요."
           ></input>
           <Button
             margin="0 0 0 15px"
@@ -129,6 +105,12 @@ const SignUpForm = () => {
             중복체크
           </Button>
         </div>
+        {/* 아이디 규칙 적용 경고 수정필요*/}
+        {!/^(?=.*\d)(?=.*[a-z])[0-9a-z]{4,12}$/.test(form.loginId) &&
+          form.loginId && (
+            <p>영문 소문자, 숫자가 모두 포함된 4~12자리로 작성해주세요.</p>
+          )}
+
         <label htmlFor="password">비밀번호</label>
         <input
           type="password"
@@ -137,8 +119,16 @@ const SignUpForm = () => {
           value={form.password}
           id="password"
           onChange={onChangeInputHandler}
-          placeholder="영문 대문자, 소문자, 숫자 포함"
+          placeholder="영문, 숫자, 특수문자가 모두 포함된 8~16자리로 작성해주세요."
         ></input>
+        {/* 비밀번호 규칙 적용 경고 수정 필요*/}
+        {!/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/.test(
+          form.password
+        ) &&
+          form.password && (
+            <p>영문, 숫자, 특수문자가 모두 포함된 8~16자리로 작성해주세요.</p>
+          )}
+
         <label htmlFor="passwordCheck">비밀번호 확인</label>
         <input
           type="password"
@@ -148,11 +138,11 @@ const SignUpForm = () => {
           id="passwordCheck"
           onChange={onChangeInputHandler}
         ></input>
-        <p>
-          {form.password !== form.passwordCheck &&
-            form.passwordCheck !== "" &&
-            "비밀번호와 일치하지 않습니다"}
-        </p>
+
+        {form.password !== form.passwordCheck && form.passwordCheck !== "" && (
+          <p>비밀번호와 일치하지 않습니다</p>
+        )}
+
         <label htmlFor="nickname">닉네임</label>
         <div>
           <input
@@ -161,6 +151,7 @@ const SignUpForm = () => {
             id="nickname"
             ref={inputNickname}
             onChange={onChangeInputHandler}
+            placeholder="영문 소문자, 한글, 숫자로 구성된 2~8자리로 작성해주세요."
           ></input>
           <Button
             margin="0 0 0 15px"
@@ -170,6 +161,11 @@ const SignUpForm = () => {
             중복체크
           </Button>
         </div>
+        {/* 닉네임 규칙 적용 경고*/}
+        {!/^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/.test(form.nickname) &&
+          form.nickname && (
+            <p>영문 소문자, 한글, 숫자로만 구성된 2~8자리로 작성해주세요.</p>
+          )}
         <label htmlFor="description">한줄 소개</label>
         <input
           name="description"
@@ -192,7 +188,7 @@ const SignUpForm = () => {
 };
 
 const Container = styled.div`
-  width: 400px;
+  width: 450px;
   color: white;
   margin-top: 100px;
   margin-bottom: 100px;
@@ -221,7 +217,7 @@ const Container = styled.div`
     }
     label {
       display: inline-block;
-      margin-top: 30px;
+      margin-top: 20px;
       font-weight: 100;
     }
     input {
