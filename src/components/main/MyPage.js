@@ -51,17 +51,9 @@ const TagList = () => {
     dispatch(__getMyPage(param.nickname));
   }, [dispatch]);
 
-  const myInfo = useSelector((state) => state.myPage.data);
-
-  const myInfoTag = myInfo.map((row) => row.tags).flat();
-  const set = new Set(myInfoTag);
-  const uniqueArr = [...set];
-
-  let tagArr = [];
-  uniqueArr.map((row, index) => {
-    const object = { id: index, tags: row };
-    tagArr.push(object);
-  });
+  const myPageInfo = useSelector((state) => state.myPage);
+  const { data: myInfo, tags: myTags } = myPageInfo;
+  console.log("myInfo", myInfo);
 
   const onClickTagHandler = (nickname, tag) => {
     //console.log({ nickname, tag });
@@ -71,7 +63,7 @@ const TagList = () => {
   return (
     <>
       <ContainerTag>
-        {tagArr.map((tag) => (
+        {myTags.map((tag) => (
           <Button
             key={tag.id}
             fontSize="12px"

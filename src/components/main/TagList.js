@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Button from "../elem/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { __getMyTag, __getMyPostTag } from "../../redux/modules/myPageSlice";
+import { __getMyPostTag } from "../../redux/modules/myPageSlice";
 import { useParams } from "react-router-dom";
 
 const ContainerTag = styled.div`
@@ -15,7 +15,7 @@ const TagList = () => {
   //console.log("param", param);
 
   useEffect(() => {
-    dispatch(__getMyTag(param.nickname));
+    dispatch(__getMyPostTag(param.nickname));
   }, [dispatch, param.nickname]);
 
   const myInfo = useSelector((state) => state.myPage.data);
