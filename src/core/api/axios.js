@@ -1,6 +1,6 @@
 import axios from "axios";
 import { serverUrl, serverUrlApi } from ".";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 
 // 헤더 없이 사용하는 경우
 export const instance = axios.create({
@@ -37,12 +37,16 @@ export const baseURLApi = axios.create({
 // interceptors를 통해 토큰값을 보내주는 것에 사용
 // 쿠키에 토큰 값 넣기
 baseURL.interceptors.request.use((config) => {
-  // 쿠키 훅
-  const [cookies] = useCookies(["id"]);
   if (config.headers === undefined) return;
-  const token = cookies.id;
+  const token = localStorage.getItem("authorization");
   console.log(token);
-  // const token = localStorage.getItem("id");
+  config.headers["Authorization"] = `${token}`;
+  return config;
+});
+
+baseURLApi.interceptors.request.use((config) => {
+  if (config.headers === undefined) return;
+  const token = localStorage.getItem("authorization");
   config.headers["Authorization"] = `${token}`;
   return config;
 });
