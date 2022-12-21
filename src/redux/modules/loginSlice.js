@@ -9,7 +9,7 @@ const initialState = {
   },
   result: null,
   error: null,
-  nickname: null,
+  // nickname: "test",
 };
 
 // thunk
@@ -18,7 +18,7 @@ export const __postLogin = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { headers, data } = await instance.post(`/member/login`, payload);
-      console.log(headers);
+      // console.log(headers);
       // accesstoken 확인
       document.cookie = `id = ${headers.authorization}`;
       // localStorage.setItem("id", headers.Authorization);
@@ -45,17 +45,6 @@ const loginSlice = createSlice({
     }),
   },
   extraReducers: {
-    [__postLogin.fulfilled]: (state, action) => {
-      // 백에 수정 요청 필요 요청!!!
-      // nickname 안들어옴
-      console.log(action.payload);
-      if (action.payload.result === "success") {
-        state.result = "success";
-        alert(action.payload.msg);
-      } else {
-        alert(action.payload.msg);
-      }
-    },
     [__postLogin.rejected]: (state, action) => {
       // 통신 오류 값 정리
       console.log(action.payload.msg);
