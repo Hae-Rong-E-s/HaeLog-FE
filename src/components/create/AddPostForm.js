@@ -1,15 +1,152 @@
 // 훅
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import uuid from "react-uuid";
-import { serverUrl } from "../../core/api";
 // 리덕스
-import { __getEditPost } from "../../redux/modules/editPostSlice";
+import {
+  changeField,
+  initializeForm,
+  __getEditPost,
+} from "../../redux/modules/editPostSlice";
 import { useDispatch, useSelector } from "react-redux";
 // 디자인
 import styled from "styled-components";
 import MarkdownRender from "../MarkdownRender";
+
+//-- JSX --//
+const AddPostForm = () => {
+  const { postId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { form } = useSelector(({ editPost }) => ({
+    form: editPost.editPost,
+  }));
+
+  // 인풋 state 가져오기
+  const onChangeHandler = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    dispatch(
+      changeField({
+        form: "editPost",
+        key: name,
+        value,
+      })
+    );
+  };
+
+  // 테그 인풋 state 가져오기
+  const onChangeTagHandler = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    dispatch(
+      changeField({
+        form: "editPost",
+        key: name,
+        value,
+      })
+    );
+  };
+
+  //-- 엔터칠 때 태그 리스트로 들어가게 하기 --//
+  const onKeyUp = (event) => {
+    if (event.target.value.length !== 0 && event.key === "Enter") {
+      submitTagItem();
+    }
+  };
+
+  const submitTagItem = () => {
+    let updateTagList = [...form.tags];
+    updateTagList.push(form.tag);
+    dispatch(
+      changeField({
+        form: "editPost",
+        key: "tags",
+        value: updateTagList,
+      })
+    );
+    dispatch(
+      changeField({
+        form: "editPost",
+        key: "tag",
+        value: "",
+      })
+    );
+  };
+
+  const deleteTagItem = (event) => {
+    const deleteTagItem = event.target.innerText;
+    const filteredTagList = form.tags.filter(
+      (tagItem) => tagItem !== deleteTagItem
+    );
+    dispatch(
+      changeField({
+        form: "editPost",
+        key: "tags",
+        value: filteredTagList,
+      })
+    );
+  };
+
+  // 수정 내용 받아오기
+  useEffect(() => {
+    if (postId) {
+      dispatch(__getEditPost(postId), [dispatch]);
+    }
+  }, [dispatch, postId]);
+
+  return (
+    <div>
+      <ButtonContainer></ButtonContainer>
+      <TitleContainer>
+        <input
+          type="text"
+          placeholder="제목을 입력하세요"
+          name="title"
+          value={form.title}
+          onChange={onChangeHandler}
+        />
+      </TitleContainer>
+      <hr />
+      <TagContainer>
+        {form.tags.map((tagItem, index) => {
+          return (
+            <button key={index} onClick={deleteTagItem}>
+              {tagItem}
+            </button>
+          );
+        })}
+        <input
+          type="text"
+          placeholder="#태그를 입력하세요"
+          name="tag"
+          value={form.tag}
+          onChange={onChangeTagHandler}
+          onKeyUp={onKeyUp}
+        />
+      </TagContainer>
+      <ContentContainer>
+        <textarea
+          type="text"
+          placeholder="마크다운으로 하고 싶은 이야기를 적어보세요"
+          name="content"
+          value={form.content}
+          onChange={onChangeHandler}
+        />
+      </ContentContainer>
+      <hr />
+      <ContentContainer>
+        <MarkdownRender
+          markdown={
+            form.content === ""
+              ? "마크다운이 변환되어 보여집니다"
+              : form.content
+          }
+          color={form.color === "" ? "gray" : "white"}
+        />
+      </ContentContainer>
+    </div>
+  );
+};
 
 //-- 디자인 --//
 const ButtonContainer = styled.div`
@@ -22,6 +159,7 @@ const ButtonContainer = styled.div`
 const TitleContainer = styled.div`
   padding: 15px 15px 15px 0;
   input {
+    background-color: transparent;
     color: white;
     width: 100%;
     border: none;
@@ -40,12 +178,16 @@ const TitleContainer = styled.div`
 const TagContainer = styled.div`
   display: flex;
   padding: 18px 15px 15px 0;
+  button {
+    margin-right: 5px;
+  }
   span {
     color: gray;
     font-size: 18px;
     font-weight: 800;
   }
   input {
+    background-color: transparent;
     color: var(--color-point2);
     flex: 1;
     border: none;
@@ -63,13 +205,13 @@ const ContentContainer = styled.div`
   border-radius: 10px;
   margin-top: 15px;
   textarea {
+    background-color: transparent;
     color: gray;
     width: 100%;
     border: none;
     font-size: 18px;
-    font-weight: 800;
     resize: none;
-    min-height: 30vh;
+    min-height: 25vh;
     &:focus {
       outline: none;
     }
@@ -78,128 +220,5 @@ const ContentContainer = styled.div`
     }
   }
 `;
-
-//-- JSX --//
-const AddPostForm = () => {
-  const { postid } = useParams();
-  const dispatch = useDispatch();
-  const { editPost, error } = useSelector((state) => state.editPost);
-  const [input, setInput] = useState({
-    title: "",
-    content: "",
-    category: "",
-  });
-  const navigate = useNavigate();
-  // date 가져오기
-  const date = new window.Date();
-  const selectDate = date.toLocaleDateString("ko-kr");
-
-  // 수정 내용 받아오기
-  useEffect(() => {
-    if (postid) {
-      dispatch(__getEditPost(postid), [dispatch]);
-      setInput({
-        title: editPost.title,
-        content: editPost.content,
-        category: editPost.category,
-      });
-    }
-  }, [dispatch, postid, editPost.title, editPost.content, editPost.category]);
-
-  // 버튼으로 추가 및 수정하기
-  const onClickHandler = async () => {
-    const postInput = {
-      ...input,
-      date: selectDate,
-      id: uuid(),
-    };
-    if (input.title === "" || input.content === "") {
-      alert("값을 입력해주세요");
-    } else {
-      // 수정하기
-      if (postid) {
-        try {
-          await axios.patch(`${serverUrl}/posts/${postid}`, input);
-          setInput({
-            title: "",
-            content: "",
-            category: "",
-          });
-          navigate(`/post/${postid}`);
-        } catch (error) {
-          console.log(error);
-        }
-        // 추가하기
-      } else {
-        try {
-          await axios.post(`${serverUrl}/posts`, postInput);
-          setInput({
-            title: "",
-            content: "",
-            category: "",
-          });
-          navigate(`/post/${postInput.id}`);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-  };
-
-  // 인풋 state 가져오기
-  const onChangeHandler = (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setInput({
-      ...input,
-      [name]: value,
-    });
-  };
-  return (
-    <div>
-      <ButtonContainer></ButtonContainer>
-      <TitleContainer>
-        <input
-          type="text"
-          placeholder="제목을 입력하세요"
-          name="title"
-          value={input.title}
-          onChange={onChangeHandler}
-        />
-      </TitleContainer>
-      <hr />
-      <TagContainer>
-        <span>#</span>
-        <input
-          type="text"
-          placeholder="태그를 입력하세요"
-          name="category"
-          value={input.category}
-          onChange={onChangeHandler}
-        />
-      </TagContainer>
-      <ContentContainer>
-        <textarea
-          type="text"
-          placeholder="마크다운으로 하고 싶은 이야기를 적어보세요"
-          name="content"
-          value={input.content}
-          onChange={onChangeHandler}
-        />
-      </ContentContainer>
-      <hr />
-      <ContentContainer>
-        <MarkdownRender
-          markdown={
-            input.content === ""
-              ? "마크다운이 변환되어 보여집니다"
-              : input.content
-          }
-          color={input.color === "" ? "gray" : "white"}
-        />
-      </ContentContainer>
-    </div>
-  );
-};
 
 export default AddPostForm;
