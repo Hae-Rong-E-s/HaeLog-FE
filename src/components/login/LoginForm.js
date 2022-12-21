@@ -44,7 +44,7 @@ const LoginForm = () => {
     } else {
       dispatch(__postLogin(form));
       if (result === "success") {
-        navigate(`/@${nickname}`);
+        // navigate(`/@${nickname}`);
       }
     }
   };
