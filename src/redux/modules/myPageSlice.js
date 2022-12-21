@@ -52,6 +52,20 @@ export const __getMyPostTag = createAsyncThunk(
   }
 );
 
+export const __getInfo = createAsyncThunk(
+  "myPage/getInfo",
+  async (payload, thunkAPI) => {
+    //console.log("payload", payload);
+    try {
+      const data = await instanceApi.get(`/member/info`, payload);
+      //console.log("data", data);
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const myPageSlice = createSlice({
   name: "myPage",
   initialState,
