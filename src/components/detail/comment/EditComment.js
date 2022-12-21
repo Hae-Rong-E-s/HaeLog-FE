@@ -9,11 +9,12 @@ import {
 } from "../../../redux/modules/commentSlice";
 import { useSelector } from "react-redux";
 
-const EditComment = ({ params }) => {
+const EditComment = ({ comment, params }) => {
   // dispatch 선언
   const dispatch = useDispatch();
-  const { isLoading, error, comment } = useSelector((state) => state.comments);
+  const { isLoading, error } = useSelector((state) => state.comments);
   // 코멘트 안의 업데이트될 새로운 댓글
+
   const newComment = comment.commentContent;
 
   // textarea에 입력할 수 있도록 on, off를 관리하는 상태
@@ -30,14 +31,15 @@ const EditComment = ({ params }) => {
       alert("공백입니다!");
       return;
     }
-    // if (!window.confirm("수정 하겠습니까?")) {
-    //   return;
-    // } else {
-    setIsEditMode(!isEditMode);
-    const content = { content: editComment };
+    if (!window.confirm("수정 하겠습니까?")) {
+      return;
+    } else {
+      setIsEditMode(!isEditMode);
+      const content = { content: editComment };
 
-    if (isEditMode) {
-      dispatch(__putComment({ content, commentid }));
+      if (isEditMode) {
+        dispatch(__putComment({ content, commentid }));
+      }
     }
   };
 
