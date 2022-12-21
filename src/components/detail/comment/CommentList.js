@@ -12,17 +12,10 @@ import UserInfoContainer from "./UserInfoContainer";
 
 const CommentList = ({ params, state }) => {
   //commentSlice Store에 저장되있는 값들
-  // const { isLoading, error, comments } = state;
-  const comments = [
-    {
-      usename: "asd",
-      createAt: 123124,
-      id: 1251243,
-      reply: "11",
-      commentContent: "서강산바보",
-    },
-  ];
-  console.log(params);
+  const { isLoading, error, comments } = state;
+
+  console.log(comments);
+  // const comments = "";
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,9 +29,9 @@ const CommentList = ({ params, state }) => {
           return (
             <div>
               <UserInfoContainer
-                username={comment.username}
+                username={comment.commentMemberNickname}
                 createAt={comment.createAt}
-                key={comment.id}
+                key={comment.commentId}
                 width="90px"
                 height="90px"
                 profileFontSize="18px"
@@ -46,7 +39,7 @@ const CommentList = ({ params, state }) => {
               <EditComment
                 params={params}
                 comment={comment}
-                key={comment.id}
+                key={comment.commentId}
               ></EditComment>
             </div>
           );

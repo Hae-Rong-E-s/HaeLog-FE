@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 const Detail = () => {
   const param = useParams();
   const state = useSelector((state) => state.comments);
+  console.log(state);
 
   return (
     <div>
