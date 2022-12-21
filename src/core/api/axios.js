@@ -25,6 +25,7 @@ baseURL.interceptors.request.use((config) => {
   const [cookies] = useCookies(["id"]);
   if (config.headers === undefined) return;
   const token = cookies.id;
+  console.log(token);
   // const token = localStorage.getItem("id");
   config.headers["Authorization"] = `${token}`;
   return config;

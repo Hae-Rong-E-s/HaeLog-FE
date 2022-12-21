@@ -20,7 +20,7 @@ export const __postLogin = createAsyncThunk(
       const { headers, data } = await instance.post(`/member/login`, payload);
       console.log(headers);
       // accesstoken 확인
-      document.cookie = `id = ${headers.accesstoken}`;
+      document.cookie = `id = ${headers.authorization}`;
       // localStorage.setItem("id", headers.Authorization);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
