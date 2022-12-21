@@ -21,10 +21,10 @@ export const __postLogin = createAsyncThunk(
         `/member/login`,
         payload
       );
-      // console.log(headers);
+      console.log(headers);
       // accesstoken 확인
-      document.cookie = `id = ${headers.authorization}`;
-      // localStorage.setItem("id", headers.Authorization);
+      // document.cookie = `authorization = ${headers.authorization}`;
+      localStorage.setItem("authorization", headers.authorization);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       // error 처리 해주기
