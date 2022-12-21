@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instance, baseURLApi } from "../../core/api/axios";
+import { instance, baseURLApi, baseURL } from "../../core/api/axios";
 
 // 입력을하고 -> 상태에 넣고 -> dispatch로 보내는데 미들웨어  THUnk 통신신먼저하고  그 통신의 응답을 받아서 이제 reducer 보내고 그걸 redux 를이용해 관리-> useselector 로 가져닫쓰는
 
@@ -14,10 +14,10 @@ export const __getComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       console.log(payload);
-      const data = await instance.get(
+      const data = await baseURL.get(
         `api?nickname=${payload.nickname}&postid=${payload.postId}`
       );
-      console.log(data);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -28,7 +28,6 @@ export const __getComment = createAsyncThunk(
 export const __postComment = createAsyncThunk(
   "postComment",
   async (payload, thunkAPI) => {
-    console.log(payload);
     const { addComment, postId } = payload;
 
     try {
@@ -52,13 +51,13 @@ export const __delComment = createAsyncThunk(
   }
 );
 // 댓글 수정
-export const __patchComment = createAsyncThunk(
+export const __putComment = createAsyncThunk(
   "patchComment",
   async (payload, thunkAPI) => {
     console.log(payload);
-    const { content, commentId } = payload;
+    const { content, commentid } = payload;
     try {
-      const data = await baseURLApi.patch(`/comment/${commentId}`, content);
+      const data = await baseURLApi.put(`/comment/${commentid}`, content);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -115,10 +114,10 @@ export const commentsSlice = createSlice({
       state.isLoading = false;
     },
     // 댓글 수정
-    [__patchComment.pending]: (state) => {
+    [__putComment.pending]: (state) => {
       state.isLoading = true;
     },
-    [__patchComment.fulfilled]: (state, action) => {
+    [__putComment.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.comments = state.comments.map((comment) => {
         if (comment.id === action.payload.id) {
@@ -129,7 +128,7 @@ export const commentsSlice = createSlice({
         }
       });
     },
-    [__patchComment.rejected]: (state, action) => {
+    [__putComment.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

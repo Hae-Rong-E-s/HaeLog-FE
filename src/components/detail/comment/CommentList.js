@@ -27,20 +27,15 @@ const CommentList = ({ params, state }) => {
       {comments &&
         comments.map((comment) => {
           return (
-            <div>
+            <div key={comment.commentId}>
               <UserInfoContainer
                 username={comment.commentMemberNickname}
                 createAt={comment.createAt}
-                key={comment.commentId}
                 width="90px"
                 height="90px"
                 profileFontSize="18px"
               />
-              <EditComment
-                params={params}
-                comment={comment}
-                key={comment.commentId}
-              ></EditComment>
+              <EditComment params={params} comment={comment}></EditComment>
             </div>
           );
         })}
