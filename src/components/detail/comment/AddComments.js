@@ -40,8 +40,6 @@ const AddComments = ({ params, state }) => {
     }
   };
 
-  // 현재 로그인한 user의 닉네임과, 한줄평
-
   return (
     <>
       <UserInfoContainer height="170px" width="170px" profileFontSize="25px" />

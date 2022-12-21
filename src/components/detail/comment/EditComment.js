@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import {
   __delComment,
   __getComment,
-  __patchComment,
+  __putComment,
 } from "../../../redux/modules/commentSlice";
 import { useSelector } from "react-redux";
 
-const EditComment = ({ comment, params }) => {
+const EditComment = ({ params }) => {
   // dispatch 선언
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.comments);
+  const { isLoading, error, comment } = useSelector((state) => state.comments);
   // 코멘트 안의 업데이트될 새로운 댓글
   const newComment = comment.commentContent;
 
@@ -20,31 +20,29 @@ const EditComment = ({ comment, params }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editComment, setEditComment] = useState(newComment);
 
-  console.log(params);
-
   const onChangeCommentHandler = (e) => {
     e.preventDefault();
     setEditComment(e.target.value);
   };
 
-  const onClickEditComment = (id) => {
+  const onClickEditComment = (commentid) => {
     if (editComment.trim() === "") {
       alert("공백입니다!");
       return;
     }
-    if (!window.confirm("수정 하겠습니까?")) {
-      return;
-    } else {
-      setIsEditMode(!isEditMode);
-      const content = { content: editComment };
+    // if (!window.confirm("수정 하겠습니까?")) {
+    //   return;
+    // } else {
+    setIsEditMode(!isEditMode);
+    const content = { content: editComment };
 
-      if (isEditMode) {
-        dispatch(__patchComment({ content, id }));
-      }
+    if (isEditMode) {
+      dispatch(__putComment({ content, commentid }));
     }
   };
 
   const delHandler = (id) => {
+    console.log(id);
     if (!window.confirm("삭제 하시겠습니까?")) {
       return;
     } else {
@@ -81,7 +79,7 @@ const EditComment = ({ comment, params }) => {
             width="90px"
             yar
             fontSize="20px"
-            onClick={() => onClickEditComment(comment.id)}
+            onClick={() => onClickEditComment(comment.commentId)}
           >
             {isEditMode ? "완료" : "수정"}
           </Button>
@@ -90,7 +88,7 @@ const EditComment = ({ comment, params }) => {
             fontSize="20px"
             type="button"
             onClick={() => {
-              delHandler(comment.id);
+              delHandler(comment.commentId);
             }}
           >
             삭제
