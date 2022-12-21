@@ -8,7 +8,7 @@ const initialState = {
   isLoading: false,
   error: null,
 };
-
+// 댓글 조회
 export const __getComment = createAsyncThunk(
   "getComment",
   async (payload, thunkAPI) => {
@@ -24,7 +24,22 @@ export const __getComment = createAsyncThunk(
     }
   }
 );
+// 댓글등록
+export const __postComment = createAsyncThunk(
+  "postComment",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+    const { addComment, postId } = payload;
 
+    try {
+      const data = await instance.post(`/comment/${postId}`, addComment);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+// 댓글 삭제
 export const __delComment = createAsyncThunk(
   "delComment",
   async (payload, thunkAPI) => {
@@ -36,7 +51,7 @@ export const __delComment = createAsyncThunk(
     }
   }
 );
-
+// 댓글 수정
 export const __patchComment = createAsyncThunk(
   "patchComment",
   async (payload, thunkAPI) => {
@@ -44,21 +59,6 @@ export const __patchComment = createAsyncThunk(
     try {
       const data = await instance.patch(`/comment/${commentId}`, editComment);
       return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const __postComment = createAsyncThunk(
-  "postComment",
-  async (payload, thunkAPI) => {
-    console.log(payload);
-    const { addComment, postId } = payload;
-
-    try {
-      const data = await instance.post(`/comment/${postId}`, addComment);
-      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

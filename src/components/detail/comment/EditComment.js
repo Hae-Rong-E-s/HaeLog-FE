@@ -15,26 +15,25 @@ const EditComment = ({ comment, params }) => {
   const { isLoading, error } = useSelector((state) => state.comments);
   // 코멘트 안의 업데이트될 새로운 댓글
   const newComment = comment.commentContent;
-  //console.log(params) => nickname, 그 게시물의 id 값
-  // const comments = [{ usename: "asd", createAt: 123124, id: 1251243 }];
+
   // textarea에 입력할 수 있도록 on, off를 관리하는 상태
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editComments, setEditComments] = useState(newComment);
+  const [editComment, setEditComment] = useState(newComment);
 
   console.log(params);
 
   const onChangeCommentHandler = (e) => {
     e.preventDefault();
-
-    setEditComments(e.target.value);
-    // const commentid =
+    setEditComment(e.target.value);
   };
 
-  const onClickEditComment = (id, i) => {
+  const onClickEditComment = (id) => {
     setIsEditMode(!isEditMode);
 
+    const content = { content: editComment };
+
     if (isEditMode) {
-      dispatch(__patchComment({ newComment, id }));
+      dispatch(__patchComment({ content, id }));
     }
   };
 
@@ -58,12 +57,9 @@ const EditComment = ({ comment, params }) => {
         name="comment"
         disabled={!isEditMode}
         backColor={isEditMode ? "#262525" : "transparent"}
-        value={editComments}
-        // value={}
+        value={editComment}
         onChange={(e) => onChangeCommentHandler(e)}
-      >
-        {/* {comment.reply} */}
-      </StTextArea>
+      ></StTextArea>
       {comment?.mycomment && (
         <Stbuttons>
           <Button
