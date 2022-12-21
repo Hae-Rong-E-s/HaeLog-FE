@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instance, baseURLApi, baseURL } from "../../core/api/axios";
+import { baseURLApi, baseURL } from "../../core/api/axios";
 
-// 입력을하고 -> 상태에 넣고 -> dispatch로 보내는데 미들웨어  THUnk 통신신먼저하고  그 통신의 응답을 받아서 이제 reducer 보내고 그걸 redux 를이용해 관리-> useselector 로 가져닫쓰는
-
+//초기값 선언
 const initialState = {
   comments: [],
+  describtion: "",
   isLoading: false,
   error: null,
 };
@@ -31,7 +31,7 @@ export const __postComment = createAsyncThunk(
 
     try {
       const data = await baseURLApi.post(`/comment/${postId}`, addComment);
-      return thunkAPI.fulfillWithValue(addComment);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -63,21 +63,22 @@ export const __putComment = createAsyncThunk(
     }
   }
 );
-
+// reducer
 export const commentsSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {},
   extraReducers: {
-    // // 댓글 불러오기
+    // 댓글 조회
     [__getComment.pending]: (state) => {
       state.isLoading = true;
     },
     [__getComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("action:", action.payload.data);
+      // console.log("action:", action.payload.data);
       const commentList = action.payload.data.commentList;
       state.comments = [...commentList];
+      // state.describtion =action.payload.data.description
     },
     [__getComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -89,9 +90,9 @@ export const commentsSlice = createSlice({
     },
     [__postComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // => 댓글 추가가 바로 반영되지 않는 문제 때문에
-      // 댓글 추가하는 원리가 궁금하다 나는 게시글의 아이디와 바뀐 댓글의 값만 보내주는데
-      // 추가한 댓글을 어떻게 리덕스에 업데이트 해야하나? => 댓글을 추가할때 post요청을 하고 요청에 대한 응답으로 받는 것이 업고, payload값은 댓글의 content 하나이고 comments는
+      state.comments = state.comments.push(action);
+
+      console.log(action);
     },
     [__postComment.rejected]: (state, action) => {
       state.isLoading = false;
