@@ -45,11 +45,11 @@ const EditComment = ({ comment, params }) => {
     }
   };
 
-  if (isLoading) {
-    return <div>...Loading</div>;
-  } else if (error) {
-    return <div>...Eroor</div>;
-  }
+  // if (isLoading) {
+  //   return <div>...Loading</div>;
+  // } else if (error) {
+  //   return <div>...Eroor</div>;
+  // }
 
   return (
     <div>
@@ -60,7 +60,7 @@ const EditComment = ({ comment, params }) => {
         value={editComment}
         onChange={(e) => onChangeCommentHandler(e)}
       ></StTextArea>
-      {comment?.mycomment && (
+      {comment?.myComment && (
         <Stbuttons>
           <Button
             width="90px"
