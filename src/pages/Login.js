@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LoginForm from "../components/login/LoginForm";
 import LinkOAuth from "../components/login/LinkOAuth";
@@ -46,7 +46,6 @@ const LinkSignUp = styled.div`
 `;
 
 const Login = () => {
-  const navigate = useNavigate();
   return (
     <Container>
       <LoginContainer>
@@ -57,14 +56,8 @@ const Login = () => {
           <LinkOAuth /> */}
           <div>
             아직 회원이 아니신가요?
-            <Link>
-              <LinkSignUp
-                onClick={() => {
-                  navigate("/signup");
-                }}
-              >
-                회원가입
-              </LinkSignUp>
+            <Link to={"/signup"}>
+              <LinkSignUp>회원가입</LinkSignUp>
             </Link>
           </div>
         </LinkContainer>
