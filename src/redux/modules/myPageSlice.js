@@ -6,7 +6,7 @@ const initialState = {
     {
       profileImage:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEAm6C-SVkvqJQ4_eMz0_KcL3wTuKHo-wYQ&usqp=CAU",
-      description: "",
+      description: "한줄 소개 기본값",
       postId: "",
       createAt: "",
       title: "",
@@ -23,13 +23,13 @@ const initialState = {
 export const __getMyPage = createAsyncThunk(
   "myPage/getMyPage",
   async (payload, thunkAPI) => {
+    //console.log("payload", payload);
     try {
-      const data = await instance.get(`/post/user/${payload}`);
-      console.log("data", data);
-      return thunkAPI.fulfillWithValue(data.data.data.responsePostListDto);
-      // const data = await instance.get(`/member/${payload}`);
+      const data = await instance.get(`/${payload}`);
+      //console.log(payload);
+      console.log("data", data.data.data);
       // console.log("data", data);
-      // return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -45,10 +45,10 @@ const Profile = () => {
         alt="profileimg"
       ></img>
       <div>
-        {/* <div>{myInfo[0].nickname}</div> */}
-        {/* <div>{myInfo[0].description}</div> */}
-        <div>작성자</div>
-        <div>나의 코딩 블로그</div>
+        <div>{myInfo[0].nickname}</div>
+        <div>{myInfo[0].description}</div>
+        {/* <div>작성자</div>
+        <div>나의 코딩 블로그</div> */}
       </div>
     </Container>
   );
