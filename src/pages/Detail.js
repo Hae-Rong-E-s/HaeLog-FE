@@ -13,8 +13,8 @@ const Detail = () => {
   return (
     <div>
       <Post params={param} />
-      <AddComment params={param} />
-      <CommentList params={param} state={state} />
+      {/* <AddComment params={param} />
+      <CommentList params={param} state={state} /> */}
     </div>
   );
 };

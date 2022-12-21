@@ -20,6 +20,7 @@ const AddPostForm = () => {
   const { form } = useSelector(({ editPost }) => ({
     form: editPost.editPost,
   }));
+  console.log(form);
 
   // 인풋 state 가져오기
   const onChangeHandler = (e) => {

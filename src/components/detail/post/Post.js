@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { serverUrl } from "../../../core/api";
+import { useNavigate, useParams } from "react-router-dom";
+import { baseURLApi } from "../../../core/api/axios";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import { __getDetailmain } from "../../../redux/modules/detailmainSlice";
@@ -13,29 +12,31 @@ import MarkdownRender from "../../MarkdownRender";
 const Post = ({ param }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { detailmainPost, error } = useSelector(
-    (state) => state.detailmainPost
-  );
+  const { nickname, postId } = useParams();
+  const { form } = useSelector(({ detailmainPost }) => ({
+    form: detailmainPost.detailmainPost,
+  }));
+  let date = form.createdAt.slice(0, 10);
 
   // 내용 받아오기
   useEffect(() => {
-    dispatch(__getDetailmain(param), [dispatch]);
-  }, [dispatch, param]);
+    dispatch(__getDetailmain({ nickname, postId }), [dispatch]);
+  }, [dispatch, nickname, postId]);
 
   // 수정 클릭 시
-  const onClickEditHandler = (id) => {
-    navigate(`/form/${id}`);
+  const onClickEditHandler = (postId) => {
+    navigate(`/create/${postId}`);
   };
 
   // 삭제 클릭 시
-  const onClickDeleteHandler = async (id) => {
+  const onClickDeleteHandler = async (postId) => {
     if (!window.confirm("삭제하시겠습니까?")) {
       // '아니오' 클릭 시 다시 원위치
     } else {
       // '네' 클릭 시
       try {
-        await axios.delete(`${serverUrl}/posts/${id}`);
-        navigate("/");
+        await baseURLApi.delete(`/post/${postId}`);
+        navigate(`/@${nickname}`);
       } catch (error) {
         console.log(error);
       }
@@ -43,29 +44,39 @@ const Post = ({ param }) => {
   };
   return (
     <div>
-      <Title>{detailmainPost.title}</Title>
+      <Title>{form.title}</Title>
       <SubTitleContainer>
-        <Date>{detailmainPost.date}</Date>
+        <Date>{date}</Date>
         <ButtonContainer>
-          <p
-            onClick={() => {
-              onClickEditHandler(param);
-            }}
-          >
-            수정
-          </p>
-          <p
-            onClick={() => {
-              onClickDeleteHandler(param);
-            }}
-          >
-            삭제
-          </p>
+          {form.myPost && (
+            <>
+              <p
+                onClick={() => {
+                  onClickEditHandler(postId);
+                }}
+              >
+                수정
+              </p>
+              <p
+                onClick={() => {
+                  onClickDeleteHandler(postId);
+                }}
+              >
+                삭제
+              </p>
+            </>
+          )}
         </ButtonContainer>
       </SubTitleContainer>
+      <TagContainer>
+        {form.tags.map((tag) => (
+          <div>{tag}</div>
+        ))}
+      </TagContainer>
+
       <ContentContainer>
         <MarkdownRender
-          markdown={detailmainPost.content}
+          markdown={form.postContent}
           fontsize="18px"
           height="auto"
           overflow="visible"
@@ -89,6 +100,7 @@ const Title = styled.div`
 const SubTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
   padding: 2px 10px;
 `;
@@ -108,6 +120,17 @@ const ButtonContainer = styled.div`
   justify-content: end;
   p {
     padding-right: 10px;
+  }
+`;
+
+const TagContainer = styled.div`
+  margin: 0px 12px;
+  display: flex;
+  div {
+    margin-right: 10px;
+    border-radius: 20px;
+    padding: 0.5rem 1.25rem;
+    background-color: var(--color-deep-red);
   }
 `;
 

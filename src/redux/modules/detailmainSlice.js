@@ -1,13 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { serverUrl } from "../../core/api";
+import { instance, baseURL } from "../../core/api/axios";
 
+//초기값
+const initialState = {
+  detailmainPost: {
+    title: "",
+    postContent: "",
+    tags: [],
+    createdAt: "",
+    myPost: null,
+  },
+  isLoading: false,
+  error: null,
+};
+
+//thunk
 export const __getDetailmain = createAsyncThunk(
   "detailmainPost/getDetailmain",
-  async (payload, thunkAPI) => {
+  async ({ nickname, postId }, thunkAPI) => {
     try {
-      console.log(`${serverUrl}/posts/${payload}`);
-      const { data } = await axios.get(`${serverUrl}/posts/${payload}`);
+      const { data } = await baseURL.get(
+        `/api?nickname=${nickname}&postid=${postId}`
+      );
+      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -15,16 +30,13 @@ export const __getDetailmain = createAsyncThunk(
   }
 );
 
-const initialState = {
-  detailmainPost: {
-    title: "",
-    category: "",
-    content: "",
-    date: "",
-  },
-  isLoading: false,
-  error: null,
-};
+// export const __deleteDatailmain = createAsyncThunk(
+//   "detailmainPost/getDetailmain",
+//   async ({ payload }, thunkAPI) => {
+//     try {
+//     } catch (error) {}
+//   }
+// );
 
 //slice
 const detailmainSlice = createSlice({
@@ -36,12 +48,14 @@ const detailmainSlice = createSlice({
       state.isLoading = true;
     },
     [__getDetailmain.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.isLoading = false;
       state.detailmainPost = {
-        title: action.payload.title,
-        content: action.payload.content,
-        category: action.payload.category,
-        date: action.payload.date,
+        title: action.payload.data.title,
+        postContent: action.payload.data.postContent,
+        tags: action.payload.data.tags,
+        createdAt: action.payload.data.createdAt,
+        myPost: action.payload.data.myPost,
       };
     },
     [__getDetailmain.rejected]: (state, action) => {

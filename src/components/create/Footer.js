@@ -12,9 +12,9 @@ const Footer = () => {
   const { form } = useSelector(({ editPost }) => ({
     form: editPost.editPost,
   }));
-  const putResult = useSelector(({ login }) => login.putResult);
-  const postResult = useSelector(({ login }) => login.postResult);
-  const nickname = useSelector(({ login }) => login.nickname);
+  // const putResult = useSelector(({ login }) => login.putResult);
+  // const postResult = useSelector(({ login }) => login.postResult);
+  // const nickname = useSelector(({ login }) => login.nickname);
 
   const editForm = {
     title: form.title,
@@ -29,17 +29,17 @@ const Footer = () => {
     } else {
       // 수정하기
       if (postId) {
-        dispatch(__putEditPost({ postId, editForm }));
-        if (putResult === "success") {
-          navigate(`/@${nickname}/${postId}`);
-        }
+        dispatch(__putEditPost({ postId, editForm })).then((res) => {
+          // console.log(res.payload);
+          // navigate(`/@${res.payload.data.nickname}/res.payload.data.postid`);
+        });
         // 추가하기
       } else {
         dispatch(__postPost(editForm)).then((res) => {
-          console.log(res.payload);
+          // console.log(res.payload);
           // console.log(res.payload.data.postid);
           // console.log(res.payload.data.nickname);
-          // navigate(`/@${res.payload.data.nickname}/res.payload.data.postid`);
+          navigate(`/@${res.payload.data.nickname}/${res.payload.data.postid}`);
         });
       }
     }
