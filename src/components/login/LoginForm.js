@@ -17,7 +17,8 @@ const LoginForm = () => {
     form: login.login,
   }));
   const result = useSelector(({ login }) => login.result);
-  const nickname = useSelector(({ login }) => login.nickname);
+  // const nickname = useSelector(({ login }) => login.nickname);
+  // console.log(nickname);
 
   // 컴포넌트가 처음 렌더링 될 때 form 초기화
   useEffect(() => {
@@ -42,10 +43,9 @@ const LoginForm = () => {
     if (form.username === "" || form.password === "") {
       alert("빈값을 입력해주세요!");
     } else {
-      dispatch(__postLogin(form));
-      if (result === "success") {
-        // navigate(`/@${nickname}`);
-      }
+      dispatch(__postLogin(form)).then((res) => {
+        navigate(`/@${res.payload.data.nickname}`);
+      });
     }
   };
 
