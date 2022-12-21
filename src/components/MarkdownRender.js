@@ -15,38 +15,6 @@ const MarkDownStyle = styled.div`
   cursor: ${({ cursor }) => cursor || "default"};
 `;
 
-// 표일 때
-const TableContainer = styled.div`
-  height: ${({ height }) => height || "200px"};
-  width: 100%;
-  img {
-    width: 50%;
-    height: 100%;
-    object-fit: cover;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th,
-  td {
-    border: 1px solid #ccc;
-    padding: 5px;
-  }
-`;
-
-const BlockQutoeStyle = styled.blockquote`
-  padding: 1.8rem;
-  border-left: 5px solid var(--color-deep-red);
-  margin-left: 0;
-  background-color: var(--color-light-gray);
-  color: white;
-  span {
-    color: white;
-    background-color: transparent;
-  }
-`;
-
 function BlockQutoe(children) {
   return (
     <BlockQutoeStyle>
@@ -80,7 +48,6 @@ const MarkdownRender = ({
           children={markdown}
           components={{
             blockquote: BlockQutoe,
-
             code({ node, inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || "");
               return !inline && match ? (
@@ -101,5 +68,37 @@ const MarkdownRender = ({
     </MarkDownStyle>
   );
 };
+
+// 표일 때
+const TableContainer = styled.div`
+  height: ${({ height }) => height || "200px"};
+  width: 100%;
+  img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+`;
+
+const BlockQutoeStyle = styled.blockquote`
+  padding: 0 0.8rem;
+  border-left: 5px solid var(--color-deep-red);
+  margin-left: 0;
+  background-color: var(--color-light-gray);
+  color: white;
+  span {
+    color: white;
+    background-color: transparent;
+  }
+`;
 
 export default MarkdownRender;
