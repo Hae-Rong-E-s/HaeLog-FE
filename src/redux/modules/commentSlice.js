@@ -13,7 +13,6 @@ export const __getComment = createAsyncThunk(
   "getComment",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
       const data = await baseURL.get(
         `api?nickname=${payload.nickname}&postid=${payload.postId}`
       );
@@ -32,7 +31,7 @@ export const __postComment = createAsyncThunk(
 
     try {
       const data = await baseURLApi.post(`/comment/${postId}`, addComment);
-      return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue(addComment);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -57,8 +56,8 @@ export const __putComment = createAsyncThunk(
     console.log(payload);
     const { content, commentid } = payload;
     try {
-      const data = await baseURLApi.put(`/comment/${commentid}`, content);
-      return thunkAPI.fulfillWithValue(data.data);
+      const data = await baseURLApi.put(`/comment/${commentid}`, content); // data는 무엇이냐? => put요청으로 부터 받는 Response 값이 아닌가? => 그러면 그냥 통신 잘됬다는 메세지?
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -86,18 +85,16 @@ export const commentsSlice = createSlice({
     },
     // 댓글 작성
     [__postComment.pending]: (state) => {
-      console.log(state);
       state.isLoading = true;
     },
     [__postComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      alert(action.payload.data.msg);
-      console.log("state:", state);
-      console.log("action:", action);
+      // => 댓글 추가가 바로 반영되지 않는 문제 때문에
+      // 댓글 추가하는 원리가 궁금하다 나는 게시글의 아이디와 바뀐 댓글의 값만 보내주는데
+      // 추가한 댓글을 어떻게 리덕스에 업데이트 해야하나? => 댓글을 추가할때 post요청을 하고 요청에 대한 응답으로 받는 것이 업고, payload값은 댓글의 content 하나이고 comments는
     },
     [__postComment.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log(state, action);
       state.error = action.payload;
     },
     // 댓글 삭제
@@ -108,7 +105,7 @@ export const commentsSlice = createSlice({
       state.isLoading = false;
       state.comments = state.comments.filter(
         (comment) => comment.commentId !== action.payload
-      );
+      ); // 댓글 삭제 로직 => commentId 체크해보기
     },
     [__delComment.rejected]: (state, action) => {
       state.isLoading = false;
