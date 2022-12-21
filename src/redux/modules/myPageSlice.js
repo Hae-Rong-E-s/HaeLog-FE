@@ -27,8 +27,7 @@ export const __getMyPage = createAsyncThunk(
     try {
       const data = await instanceApi.get(`/${payload}`);
       //console.log(payload);
-      console.log("data", data.data.data);
-      // console.log("data", data);
+      //console.log("data", data.data.data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
