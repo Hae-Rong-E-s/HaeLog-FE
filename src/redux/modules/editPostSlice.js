@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instance, baseURL } from "../../core/api/axios";
+import { baseURLApi } from "../../core/api/axios";
 
 const initialState = {
   editPost: {
@@ -19,7 +19,7 @@ export const __getEditPost = createAsyncThunk(
   "editPost/getEditPost",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await baseURL.get(`/post/${payload}`);
+      const { data } = await baseURLApi.get(`/post/${payload}`);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -32,7 +32,7 @@ export const __putEditPost = createAsyncThunk(
   "editPost/putEditPost",
   async ({ payload: { postId, editForm } }, thunkAPI) => {
     try {
-      const { data } = await baseURL.put(`/post/${postId}`, editForm);
+      const { data } = await baseURLApi.put(`/post/${postId}`, editForm);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -46,7 +46,7 @@ export const __postPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const { data } = await baseURL.put("/post", payload);
+      const { data } = await baseURLApi.put("/post", payload);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
