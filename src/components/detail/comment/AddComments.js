@@ -13,7 +13,7 @@ const AddComments = ({ params }) => {
   const dispatch = useDispatch();
 
   // url path에 입력된 값을 가져오기
-  const commentId = params.postId;
+  const postId = params.postId;
 
   // Network 요청에 대한 댓글 상태관리
   const [addComment, setAddComment] = useState({
@@ -35,7 +35,7 @@ const AddComments = ({ params }) => {
     if (!window.confirm("추가 하시겠습니까?")) {
       return;
     } else {
-      dispatch(__postComment({ addComment, commentId }));
+      dispatch(__postComment({ addComment, postId }));
       setAddComment({ content: "" }); // 초기화
     }
   };
@@ -91,8 +91,7 @@ const StCommentForm = styled.div`
   }
 `;
 const StTextArea = styled.textarea`
-  width: 100%;
-  min-height: 150px;
+  width: 97%;
   resize: none;
   border-radius: 4px;
   border: 1px solid #2a2a2a;
