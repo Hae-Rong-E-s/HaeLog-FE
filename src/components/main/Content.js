@@ -56,28 +56,13 @@ const Content = () => {
         alt="contentImg"
       ></img> */}
       {myInfos.map((myInfo) => (
-        <StDiv key={myInfo.postId}>
-          <StLink to={`/@${param.nickname}/&postid=${myInfo.postId}`}>
+        <StDiv key={myInfo.postid}>
+          <StLink to={`/@${param.nickname}/&postid=${myInfo.postid}`}>
             <h3>{myInfo.title}</h3>
           </StLink>
-          {/* <p>{myInfo.contentSummary}</p> */}
-          <p>
-            리덕스 공부 리덕스의 전반적인 형태와 흐름을 집중적으로
-            공부하였습니다. 틀을 먼저 이해하고, 흐름을 이해하려 노력하였습니다.
-            store, action value, action creator, reducer등 생소한 개념을
-            이해하고 공부하는데 집중하였습니다.
-          </p>
+          <p>{myInfo.contentSummary}</p>
         </StDiv>
       ))}
-      <StDiv>
-        <h3>[22.12.05 - 12.11]Weekly I Learned</h3>
-        <p>
-          리덕스 공부 리덕스의 전반적인 형태와 흐름을 집중적으로 공부하였습니다.
-          틀을 먼저 이해하고, 흐름을 이해하려 노력하였습니다. store, action
-          value, action creator, reducer등 생소한 개념을 이해하고 공부하는데
-          집중하였습니다.
-        </p>
-      </StDiv>
     </Container>
   );
 };
