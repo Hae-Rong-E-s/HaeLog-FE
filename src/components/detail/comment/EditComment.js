@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../../elem/Button";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   __delComment,
   __getComment,
@@ -9,23 +9,23 @@ import {
 } from "../../../redux/modules/commentSlice";
 import { useSelector } from "react-redux";
 
-const EditComment = ({ comment, params }) => {
-  // dispatch 선언
+const EditComment = ({ comment }) => {
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.comments);
-  // 코멘트 안의 업데이트될 새로운 댓글
 
-  const newComment = comment.commentContent;
+  const { isLoading, error } = useSelector((state) => state.comments);
 
   // textarea에 입력할 수 있도록 on, off를 관리하는 상태
   const [isEditMode, setIsEditMode] = useState(false);
+
+  /** 코멘트 안의 업데이트될 새로운 댓글 */
+  const newComment = comment.commentContent;
   const [editComment, setEditComment] = useState(newComment);
 
   const onChangeCommentHandler = (e) => {
     e.preventDefault();
     setEditComment(e.target.value);
   };
-
+  /** 수정 버튼클릭 로직*/
   const onClickEditComment = (commentid) => {
     if (editComment.trim() === "") {
       alert("공백입니다!");
