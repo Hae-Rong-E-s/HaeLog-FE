@@ -7,10 +7,10 @@ const initialState = {
       profileImage:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEAm6C-SVkvqJQ4_eMz0_KcL3wTuKHo-wYQ&usqp=CAU",
       description: "한줄 소개 기본값",
-      postId: "",
+      postid: "",
       createAt: "",
       title: "",
-      tags: [""],
+      tags: [],
       contentSummary: "",
       nickname: "닉네임 기본값",
       commentCount: "",
@@ -36,18 +36,6 @@ export const __getMyPage = createAsyncThunk(
   }
 );
 
-export const __getMyTag = createAsyncThunk(
-  "myPage/getMyTag",
-  async (payload, thunkAPI) => {
-    try {
-      const data = await instanceApi.get(`/${payload}`);
-      return thunkAPI.fulfillWithValue(data.data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const __getMyPostTag = createAsyncThunk(
   "myPage/getMyPostTag",
   async (payload, thunkAPI) => {
@@ -56,7 +44,7 @@ export const __getMyPostTag = createAsyncThunk(
       const data = await instanceApi.get(
         `/${payload.nickname}/post?tag=${payload.tag}`
       );
-      console.log("data", data.data.data);
+      //console.log("data", data.data.data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -74,24 +62,21 @@ export const myPageSlice = createSlice({
       state.isLoading = true;
     },
     [__getMyPage.fulfilled]: (state, action) => {
-      // console.log("action", action.payload);
+      const myInfo = action.payload;
+      const myInfoTag = myInfo.map((row) => row.tags).flat();
+      const set = new Set(myInfoTag);
+      const uniqueArr = [...set];
+      let tagArr = [];
+      uniqueArr.map((row, index) => {
+        const object = { id: index, tags: row };
+        tagArr.push(object);
+      });
+      //console.log("tagArr", tagArr);
       state.isLoading = false;
+      state.tags = tagArr;
       state.data = action.payload;
     },
     [__getMyPage.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    //태그 불러오기
-    [__getMyTag.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [__getMyTag.fulfilled]: (state, action) => {
-      console.log("action", action.payload);
-      state.isLoading = false;
-      state.data = action.payload;
-    },
-    [__getMyTag.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
