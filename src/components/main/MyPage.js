@@ -63,30 +63,35 @@ const TagList = () => {
   return (
     <>
       <ContainerTag>
-        {myTags.map((tag) => (
-          <Button
-            key={tag.id}
-            fontSize="12px"
-            margin="0 20px 0 0"
-            onClick={() => onClickTagHandler(param.nickname, tag.tags)}
-          >
-            {tag.tags}
-          </Button>
-        ))}
+        {param.nickname &&
+          myTags.map((tag) => (
+            <Button
+              key={tag.id}
+              fontSize="12px"
+              margin="0 20px 0 0"
+              onClick={() => onClickTagHandler(param.nickname, tag.tags)}
+            >
+              {tag.tags}
+            </Button>
+          ))}
       </ContainerTag>
       <Container>
         {/* <img
       src="https://velog.velcdn.com/images/jejupalette/post/7f674bf9-5f01-4091-ba22-85c6255da53c/image.png"
       alt="contentImg"
     ></img> */}
-        {myInfo.map((myInfo) => (
-          <StDiv key={myInfo.postid}>
-            <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
-              <h3>{myInfo.title}</h3>
-            </StLink>
-            <p>{myInfo.contentSummary}</p>
-          </StDiv>
-        ))}
+        {param.nickname ? (
+          myInfo.map((myInfo) => (
+            <StDiv key={myInfo.postid}>
+              <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
+                <h3>{myInfo.title}</h3>
+              </StLink>
+              <p>{myInfo.contentSummary}</p>
+            </StDiv>
+          ))
+        ) : (
+          <div>내용이 없습니다</div>
+        )}
       </Container>
     </>
   );
