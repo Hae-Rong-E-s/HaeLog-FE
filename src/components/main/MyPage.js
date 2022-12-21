@@ -80,7 +80,7 @@ const TagList = () => {
       src="https://velog.velcdn.com/images/jejupalette/post/7f674bf9-5f01-4091-ba22-85c6255da53c/image.png"
       alt="contentImg"
     ></img> */}
-        {myInfo === [] ? (
+        {myInfo.length !== 0 ? (
           myInfo.map((myInfo) => (
             <StDiv key={myInfo.postid}>
               <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
