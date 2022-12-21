@@ -8,14 +8,14 @@ import { useSelector } from "react-redux";
 
 const Detail = () => {
   const param = useParams();
-  const state = useSelector((state) => state.comments);
+  const state = useSelector((state) => state);
   console.log(state);
 
   return (
     <div>
       <Post params={param} />
-      <AddComment params={param} />
-      <CommentList params={param} state={state} />
+      <AddComment params={param} state={state} />
+      <CommentList params={param} state={state.comments} />
     </div>
   );
 };

@@ -28,12 +28,19 @@ const EditComment = ({ comment, params }) => {
   };
 
   const onClickEditComment = (id) => {
-    setIsEditMode(!isEditMode);
+    if (editComment.trim() === "") {
+      alert("공백입니다!");
+      return;
+    }
+    if (!window.confirm("수정 하겠습니까?")) {
+      return;
+    } else {
+      setIsEditMode(!isEditMode);
+      const content = { content: editComment };
 
-    const content = { content: editComment };
-
-    if (isEditMode) {
-      dispatch(__patchComment({ content, id }));
+      if (isEditMode) {
+        dispatch(__patchComment({ content, id }));
+      }
     }
   };
 
@@ -45,11 +52,19 @@ const EditComment = ({ comment, params }) => {
     }
   };
 
-  // if (isLoading) {
-  //   return <div>...Loading</div>;
-  // } else if (error) {
-  //   return <div>...Eroor</div>;
-  // }
+  if (isLoading) {
+    return (
+      <div>
+        <h1>🤩...댓글 불러오는중...🤩</h1>
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div>
+        <h1>😭...Eroor...😭</h1>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -89,7 +104,7 @@ const EditComment = ({ comment, params }) => {
 export default EditComment;
 
 const StTextArea = styled.textarea`
-  width: 100%;
+  width: 97%;
 
   resize: none;
   border-radius: 4px;

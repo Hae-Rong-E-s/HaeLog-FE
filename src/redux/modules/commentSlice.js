@@ -55,9 +55,10 @@ export const __delComment = createAsyncThunk(
 export const __patchComment = createAsyncThunk(
   "patchComment",
   async (payload, thunkAPI) => {
-    const { editComment, commentId } = payload;
+    console.log(payload);
+    const { content, commentId } = payload;
     try {
-      const data = await baseURLApi.patch(`/comment/${commentId}`, editComment);
+      const data = await baseURLApi.patch(`/comment/${commentId}`, content);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
