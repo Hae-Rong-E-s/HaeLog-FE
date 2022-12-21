@@ -16,6 +16,7 @@ const initialState = {
       commentCount: "",
     },
   ],
+  tags: [],
   isLoading: false,
   error: null,
 };
@@ -28,6 +29,34 @@ export const __getMyPage = createAsyncThunk(
       const data = await instanceApi.get(`/${payload}`);
       //console.log(payload);
       //console.log("data", data.data.data);
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const __getMyTag = createAsyncThunk(
+  "myPage/getMyTag",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await instanceApi.get(`/${payload}`);
+      return thunkAPI.fulfillWithValue(data.data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const __getMyPostTag = createAsyncThunk(
+  "myPage/getMyPostTag",
+  async (payload, thunkAPI) => {
+    //console.log("payload", payload.nickname, payload.tag);
+    try {
+      const data = await instanceApi.get(
+        `/${payload.nickname}/post?tag=${payload.tag}`
+      );
+      console.log("data", data.data.data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -50,6 +79,32 @@ export const myPageSlice = createSlice({
       state.data = action.payload;
     },
     [__getMyPage.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    //태그 불러오기
+    [__getMyTag.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getMyTag.fulfilled]: (state, action) => {
+      console.log("action", action.payload);
+      state.isLoading = false;
+      state.data = action.payload;
+    },
+    [__getMyTag.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    //태그에 맞는 게시물 불러오기
+    [__getMyPostTag.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getMyPostTag.fulfilled]: (state, action) => {
+      // console.log("action", action.payload);
+      state.isLoading = false;
+      state.data = action.payload;
+    },
+    [__getMyPostTag.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
