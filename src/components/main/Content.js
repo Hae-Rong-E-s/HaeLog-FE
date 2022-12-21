@@ -47,7 +47,7 @@ const Content = () => {
   }, [dispatch, param.nickname]);
 
   const myInfos = useSelector((state) => state.myPage.data);
-  console.log("myInfos", myInfos);
+  //console.log("myInfos", myInfos);
 
   return (
     <Container>
@@ -57,7 +57,7 @@ const Content = () => {
       ></img> */}
       {myInfos.map((myInfo) => (
         <StDiv key={myInfo.postid}>
-          <StLink to={`/@${param.nickname}/&postid=${myInfo.postid}`}>
+          <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
             <h3>{myInfo.title}</h3>
           </StLink>
           <p>{myInfo.contentSummary}</p>

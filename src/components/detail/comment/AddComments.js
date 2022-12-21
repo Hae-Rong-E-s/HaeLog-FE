@@ -9,7 +9,7 @@ import {
   __postComment,
 } from "../../../redux/modules/commentSlice";
 
-const AddComments = ({ params }) => {
+const AddComments = ({ params, state }) => {
   const dispatch = useDispatch();
 
   // url path에 입력된 값을 가져오기
