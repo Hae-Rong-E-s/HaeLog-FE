@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instance } from "../../core/api/axios";
+import { instanceAPI } from "../../core/api/axios";
 
 //초기값
 const initialState = {
@@ -21,7 +21,7 @@ export const __postSignUp = createAsyncThunk(
   "signUpPost/postSignUp",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await instance.post("/member/signup", payload);
+      const { data } = await instanceAPI.post("/member/signup", payload);
       // console.log(data);
       // const { data } = await instance.post("/member/signup", payload);
       return thunkAPI.fulfillWithValue(data);
@@ -37,7 +37,10 @@ export const __postCheckId = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const { data } = await instance.post("/member/signup/loginid", payload);
+      const { data } = await instanceAPI.post(
+        "/member/signup/loginid",
+        payload
+      );
       // console.log(data);
 
       return thunkAPI.fulfillWithValue(data);
@@ -51,7 +54,10 @@ export const __postCheckNickname = createAsyncThunk(
   "signUpPost/postCheckNickname",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await instance.post("/member/signup/nickname", payload);
+      const { data } = await instanceAPI.post(
+        "/member/signup/nickname",
+        payload
+      );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

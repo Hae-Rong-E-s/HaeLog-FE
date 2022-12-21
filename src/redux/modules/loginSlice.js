@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../core/api/axios";
+import { instanceAPI } from "../../core/api/axios";
 
 //초기값 설정
 const initialState = {
@@ -17,7 +17,7 @@ export const __postLogin = createAsyncThunk(
   "login/postLogin",
   async (payload, thunkAPI) => {
     try {
-      const { headers, data } = await instance.post(`/member/login`, payload);
+      const { headers, data } = await instanceAPI.post(`member/login`, payload);
       // console.log(headers);
       // accesstoken 확인
       document.cookie = `id = ${headers.authorization}`;

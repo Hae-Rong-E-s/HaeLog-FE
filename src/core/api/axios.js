@@ -1,6 +1,23 @@
 import axios from "axios";
 import { serverUrl } from ".";
+import { serverUrlApi } from ".";
 import { useCookies } from "react-cookie";
+
+// 헤더 없이 사용하는 경우
+export const instanceAPI = axios.create({
+  baseURL: serverUrlApi,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+});
+
+// 헤더 토큰 값이 들어가야 하는 경우
+export const baseURLAPI = axios.create({
+  baseURL: serverUrlApi,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+});
 
 // 헤더 없이 사용하는 경우
 export const instance = axios.create({
