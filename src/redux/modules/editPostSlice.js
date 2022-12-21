@@ -8,10 +8,10 @@ const initialState = {
     tag: "",
     content: "",
   },
-  putResult: null,
-  postResult: null,
+  // putResult: null,
+  // postResult: null,
   error: null,
-  nickname: "",
+  // nickname: "",
 };
 
 // 수정내용 get 받아오기
@@ -74,12 +74,13 @@ const editPostSlice = createSlice({
     },
     [__getEditPost.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log(action.payload);
       state.editPost = {
-        title: action.payload.title,
+        title: action.payload.data.title,
         tags: action.payload.tags,
         content: action.payload.content,
       };
-      state.nickname = action.payload.nickname;
+      // state.nickname = action.payload.nickname;
     },
     [__getEditPost.rejected]: (state) => {
       state.isLoading = false;

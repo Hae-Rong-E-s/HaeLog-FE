@@ -16,6 +16,7 @@ const Detail = () => {
       <Post params={param} />
       <AddComment params={param} state={state} />
       <CommentList params={param} state={state.comments} />
+
     </div>
   );
 };
