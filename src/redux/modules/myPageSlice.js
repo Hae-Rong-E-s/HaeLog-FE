@@ -12,7 +12,7 @@ const initialState = {
       title: "",
       tags: [""],
       contentSummary: "",
-      nickname: "",
+      nickname: "닉네임 기본값",
       commentCount: "",
     },
   ],
