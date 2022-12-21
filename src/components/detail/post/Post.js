@@ -120,6 +120,7 @@ const ButtonContainer = styled.div`
   justify-content: end;
   p {
     padding-right: 10px;
+    cursor: pointer;
   }
 `;
 

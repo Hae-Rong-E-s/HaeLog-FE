@@ -22,6 +22,13 @@ const AddPostForm = () => {
   }));
   console.log(form);
 
+  // 수정 내용 받아오기
+  useEffect(() => {
+    if (postId) {
+      dispatch(__getEditPost(postId), [dispatch]);
+    }
+  }, [dispatch, postId]);
+
   // 인풋 state 가져오기
   const onChangeHandler = (e) => {
     e.preventDefault();
@@ -87,13 +94,6 @@ const AddPostForm = () => {
       })
     );
   };
-
-  // 수정 내용 받아오기
-  useEffect(() => {
-    if (postId) {
-      dispatch(__getEditPost(postId), [dispatch]);
-    }
-  }, [dispatch, postId]);
 
   return (
     <div>

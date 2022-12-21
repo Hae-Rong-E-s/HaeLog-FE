@@ -12,6 +12,7 @@ const Footer = () => {
   const { form } = useSelector(({ editPost }) => ({
     form: editPost.editPost,
   }));
+  // console.log("form", form);
   // const putResult = useSelector(({ login }) => login.putResult);
   // const postResult = useSelector(({ login }) => login.postResult);
   // const nickname = useSelector(({ login }) => login.nickname);
@@ -22,6 +23,7 @@ const Footer = () => {
     content: form.content,
   };
 
+  console.log("editForm", editForm);
   // 버튼으로 추가 및 수정하기
   const onClickHandler = async () => {
     if (form.title === "" || form.content === "") {
@@ -29,9 +31,10 @@ const Footer = () => {
     } else {
       // 수정하기
       if (postId) {
+        console.log("postId", "editForm", postId, editForm);
         dispatch(__putEditPost({ postId, editForm })).then((res) => {
           // console.log(res.payload);
-          // navigate(`/@${res.payload.data.nickname}/res.payload.data.postid`);
+          navigate(`/@${res.payload.data.nickname}/${res.payload.data.postid}`);
         });
         // 추가하기
       } else {

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { baseURLApi } from "../../core/api/axios";
+import { baseURLApi, instanceApi } from "../../core/api/axios";
 
 const initialState = {
   editPost: {
@@ -20,6 +20,7 @@ export const __getEditPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await baseURLApi.get(`/post/${payload}`);
+      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -30,8 +31,9 @@ export const __getEditPost = createAsyncThunk(
 // 수정내용 put 하기
 export const __putEditPost = createAsyncThunk(
   "editPost/putEditPost",
-  async ({ payload: { postId, editForm } }, thunkAPI) => {
+  async ({ postId, editForm }, thunkAPI) => {
     try {
+      console.log(postId, editForm);
       const { data } = await baseURLApi.put(`/post/${postId}`, editForm);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
