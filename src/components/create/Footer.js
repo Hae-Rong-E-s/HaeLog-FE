@@ -35,18 +35,25 @@ const Footer = () => {
         }
         // 추가하기
       } else {
-        dispatch(__postPost(editForm));
-        if (postResult === "success") {
-          // 수정 필요
-          navigate(`/@${nickname}`);
-        }
+        dispatch(__postPost(editForm)).then((res) => {
+          console.log(res.payload);
+          // console.log(res.payload.data.postid);
+          // console.log(res.payload.data.nickname);
+          // navigate(`/@${res.payload.data.nickname}/res.payload.data.postid`);
+        });
       }
     }
   };
   return (
     <Container>
-      <div>◀︎ 나가기</div>
-      <Button type="button" onClick={onClickHandler} margin="0">
+      <div
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        ◀︎ 나가기
+      </div>
+      <Button type="button" onClick={onClickHandler}>
         {postId ? "수정하기" : "출간하기"}
       </Button>
     </Container>
@@ -57,8 +64,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: var(--color-light-gray);
-  width: 100%;
-  padding: 20px 40px;
+  padding: 25px 20px;
   div {
     background-color: transparent;
   }

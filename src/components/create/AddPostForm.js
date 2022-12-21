@@ -142,6 +142,8 @@ const AddPostForm = () => {
               : form.content
           }
           color={form.color === "" ? "gray" : "white"}
+          height="auto"
+          overflow="visible"
         />
       </ContentContainer>
     </div>

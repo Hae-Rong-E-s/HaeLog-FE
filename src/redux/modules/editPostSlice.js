@@ -46,7 +46,7 @@ export const __postPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
-      const { data } = await baseURLApi.put("/post", payload);
+      const { data } = await baseURLApi.post("/post", payload);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -100,12 +100,7 @@ const editPostSlice = createSlice({
     },
     // 새로운 내용 포스트하기
     [__postPost.fulfilled]: (state, action) => {
-      if (action.payload.result === "success") {
-        state.getResult = "success";
-        alert(action.payload.msg);
-      } else {
-        alert(action.payload.msg);
-      }
+      alert(action.payload.msg);
     },
     [__postPost.rejected]: (state, action) => {
       console.log(action.payload.msg);
