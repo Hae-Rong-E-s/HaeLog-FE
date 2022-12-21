@@ -18,20 +18,30 @@ const Header = () => {
         ></HIcon>
         <div> Tom's Healog</div>
       </MainTitle>
-      <Button
-        margin="0 20px"
-        onClick={() => {
-          navigate("login");
-        }}
-      >
-        로그인
-      </Button>
+      <div>
+        <Button
+          margin="0 20px"
+          onClick={() => {
+            navigate("create");
+          }}
+        >
+          새 글 작성
+        </Button>
+        <Button
+          margin="0 40px 0 0"
+          onClick={() => {
+            navigate("login");
+          }}
+        >
+          로그인
+        </Button>
+      </div>
     </Container>
   );
 };
 
 const Container = styled.div`
-  padding: 30px;
+  padding: 30px 50px;
   width: 100vw;
   display: flex;
   justify-content: space-between;
