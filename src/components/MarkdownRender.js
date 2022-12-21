@@ -17,7 +17,7 @@ const MarkDownStyle = styled.div`
 
 // 표일 때
 const TableContainer = styled.div`
-  height: ${({ height }) => height || "350px"};
+  height: ${({ height }) => height || "200px"};
   width: 100%;
   img {
     width: 50%;
