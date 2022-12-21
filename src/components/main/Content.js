@@ -44,7 +44,7 @@ const Content = () => {
 
   useEffect(() => {
     dispatch(__getMyPage(param.nickname));
-  }, [dispatch, param.nickname]);
+  }, [dispatch]);
 
   const myInfos = useSelector((state) => state.myPage.data);
   //console.log("myInfos", myInfos);
