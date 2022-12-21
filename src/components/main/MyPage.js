@@ -80,7 +80,7 @@ const TagList = () => {
       src="https://velog.velcdn.com/images/jejupalette/post/7f674bf9-5f01-4091-ba22-85c6255da53c/image.png"
       alt="contentImg"
     ></img> */}
-        {param.nickname ? (
+        {myInfo === [] ? (
           myInfo.map((myInfo) => (
             <StDiv key={myInfo.postid}>
               <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
@@ -90,7 +90,7 @@ const TagList = () => {
             </StDiv>
           ))
         ) : (
-          <div>내용이 없습니다</div>
+          <h3>첫 글쓰기를 시작하세요</h3>
         )}
       </Container>
     </>
