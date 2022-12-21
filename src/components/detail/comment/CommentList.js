@@ -1,4 +1,5 @@
 import EditComment from "./EditComment";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { __getComment } from "../../../redux/modules/commentSlice";
 import UserInfoContainer from "./UserInfoContainer";
@@ -11,46 +12,44 @@ import UserInfoContainer from "./UserInfoContainer";
 
 const CommentList = ({ params, state }) => {
   //commentSlice Store에 저장되있는 값들
-  const { isLoading, error, comments } = state;
+  // const { isLoading, error, comments } = state;
+  const comments = [
+    {
+      usename: "asd",
+      createAt: 123124,
+      id: 1251243,
+      reply: "11",
+      commentContent: "서강산바보",
+    },
+  ];
+  console.log(params);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(__getComment(params));
-  // }, [dispatch, params]);
-
-  // if (isLoading) {
-  //   return <div>로딩 중....</div>;
-  // }
-  console.log(params);
-  console.log(state);
-
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
+  useEffect(() => {
+    dispatch(__getComment(params));
+  }, [dispatch, params]);
 
   return (
     <div>
       {comments &&
         comments.map((comment) => {
-          if (true) {
-            return (
-              <div>
-                <UserInfoContainer
-                  username={comment.username}
-                  createAt={comment.createAt}
-                  key={comment.id}
-                  width="90px"
-                  height="90px"
-                  profileFontSize="18px"
-                />
-                <EditComment
-                  params={params}
-                  comment={comment}
-                  key={comment.id}
-                ></EditComment>
-              </div>
-            );
-          }
+          return (
+            <div>
+              <UserInfoContainer
+                username={comment.username}
+                createAt={comment.createAt}
+                key={comment.id}
+                width="90px"
+                height="90px"
+                profileFontSize="18px"
+              />
+              <EditComment
+                params={params}
+                comment={comment}
+                key={comment.id}
+              ></EditComment>
+            </div>
+          );
         })}
     </div>
   );

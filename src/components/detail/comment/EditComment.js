@@ -7,33 +7,35 @@ import {
   __getComment,
   __patchComment,
 } from "../../../redux/modules/commentSlice";
+import { useSelector } from "react-redux";
 
 const EditComment = ({ comment, params }) => {
   // dispatch 선언
   const dispatch = useDispatch();
+  const { isLoading, error } = useSelector((state) => state.comments);
   // 코멘트 안의 업데이트될 새로운 댓글
   const newComment = comment.commentContent;
   //console.log(params) => nickname, 그 게시물의 id 값
-
+  // const comments = [{ usename: "asd", createAt: 123124, id: 1251243 }];
   // textarea에 입력할 수 있도록 on, off를 관리하는 상태
-  const [isEditMode, setIsEditMode] = useState(true);
-
-  //
+  const [isEditMode, setIsEditMode] = useState(false);
   const [editComments, setEditComments] = useState(newComment);
 
   console.log(params);
-  console.log(comment);
 
   const onChangeCommentHandler = (e) => {
     e.preventDefault();
+
+    setEditComments(e.target.value);
     // const commentid =
   };
 
   const onClickEditComment = (id, i) => {
-    console.log(id);
     setIsEditMode(!isEditMode);
-    console.log(isEditMode);
-    dispatch(__patchComment({ newComment, id }));
+
+    if (isEditMode) {
+      dispatch(__patchComment({ newComment, id }));
+    }
   };
 
   const delHandler = (id) => {
@@ -44,34 +46,46 @@ const EditComment = ({ comment, params }) => {
     }
   };
 
+  if (isLoading) {
+    return <div>...Loading</div>;
+  } else if (error) {
+    return <div>...Eroor</div>;
+  }
+
   return (
     <div>
       <StTextArea
         name="comment"
-        disabled={isEditMode}
-        backColor={isEditMode ? "transparent" : "#262525"}
-        value={comment.reply}
+        disabled={!isEditMode}
+        backColor={isEditMode ? "#262525" : "transparent"}
+        value={editComments}
+        // value={}
         onChange={(e) => onChangeCommentHandler(e)}
-      ></StTextArea>
-      <Stbuttons>
-        <Button
-          width="90px"
-          fontSize="20px"
-          onClick={() => onClickEditComment(comment.id)}
-        >
-          수정
-        </Button>
-        <Button
-          width="90px"
-          fontSize="20px"
-          type="button"
-          onClick={() => {
-            delHandler(comment.id);
-          }}
-        >
-          삭제
-        </Button>
-      </Stbuttons>
+      >
+        {/* {comment.reply} */}
+      </StTextArea>
+      {comment?.mycomment && (
+        <Stbuttons>
+          <Button
+            width="90px"
+            yar
+            fontSize="20px"
+            onClick={() => onClickEditComment(comment.id)}
+          >
+            {isEditMode ? "완료" : "수정"}
+          </Button>
+          <Button
+            width="90px"
+            fontSize="20px"
+            type="button"
+            onClick={() => {
+              delHandler(comment.id);
+            }}
+          >
+            삭제
+          </Button>
+        </Stbuttons>
+      )}
     </div>
   );
 };
@@ -80,7 +94,7 @@ export default EditComment;
 
 const StTextArea = styled.textarea`
   width: 100%;
-  min-height: 150px;
+
   resize: none;
   border-radius: 4px;
   border: none;
