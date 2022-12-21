@@ -22,6 +22,7 @@ const Router = () => {
           <Route path="/create/:postId" element={<Create />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </>
