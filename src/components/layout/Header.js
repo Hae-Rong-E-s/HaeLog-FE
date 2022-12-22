@@ -40,7 +40,7 @@ const Header = () => {
           src={process.env.PUBLIC_URL + "/imgs/h-solid.svg"}
           alt="Hicon"
         ></HIcon>
-        <div> Tom's Healog</div>
+        <div> {nickname}'s Healog</div>
       </MainTitle>
       <div>
         {isMine === true ? (
