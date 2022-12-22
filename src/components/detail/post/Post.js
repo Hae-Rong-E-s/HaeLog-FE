@@ -18,7 +18,7 @@ const Post = ({ param }) => {
   }));
   let date = form.createdAt.slice(0, 10);
 
-  // 내용 받아오기
+  // 수정이라면 내용 받아오기
   useEffect(() => {
     dispatch(__getDetailmain({ nickname, postId }), [dispatch]);
   }, [dispatch, nickname, postId]);

@@ -19,6 +19,7 @@ export const __getEditPost = createAsyncThunk(
   "editPost/getEditPost",
   async (payload, thunkAPI) => {
     try {
+      // 403에러로 매번 받아오는 것 실패
       const { data } = await baseURLApi.get(`/post/${payload}`);
       console.log(data);
       return thunkAPI.fulfillWithValue(data);

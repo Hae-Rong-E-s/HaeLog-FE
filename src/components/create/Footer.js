@@ -51,7 +51,7 @@ const Footer = () => {
     <Container>
       <div
         onClick={() => {
-          navigate("/");
+          navigate(-1);
         }}
       >
         ◀︎ 나가기
@@ -70,6 +70,7 @@ const Container = styled.div`
   padding: 25px 20px;
   div {
     background-color: transparent;
+    cursor: pointer;
   }
 `;
 
