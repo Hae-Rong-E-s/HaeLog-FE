@@ -3,8 +3,15 @@
 # 항해 99 기술 블로그, Haelog
 Haelog는 항해99 선원들을 위한 기술 블로그입니다.
 
-## 📺 실행화면
+<br />
 
+## 🔴 배포 사이트
+https://hae-log-fe-haelog-fe.vercel.app/
+
+<br />
+
+## 📺 실행화면
+https://youtu.be/c__C9oTkIbs
 
 <br />
 
@@ -46,6 +53,7 @@ Haelog는 항해99 선원들을 위한 기술 블로그입니다.
 + CSS
 + JavaScript
 + React
++ Redux-toolkit
 
 <br />
 
