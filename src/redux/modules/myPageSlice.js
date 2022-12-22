@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instanceApi } from "../../core/api/axios";
+import { baseURLApi, instanceApi } from "../../core/api/axios";
 
 const initialState = {
   data: [
@@ -57,8 +57,8 @@ export const __getInfo = createAsyncThunk(
   async (payload, thunkAPI) => {
     //console.log("payload", payload);
     try {
-      const data = await instanceApi.get(`/member/info`, payload);
-      //console.log("data", data);
+      const data = await baseURLApi.get(`/member/info?nickname=${payload}`);
+      console.log("data", data);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

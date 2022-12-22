@@ -31,7 +31,8 @@ const Profile = () => {
   //console.log("param", param);
 
   useEffect(() => {
-    dispatch(__getInfo(param));
+    //dispatch(__getInfo(param));
+    dispatch(__getInfo(param.nickname));
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.myPage.data);
