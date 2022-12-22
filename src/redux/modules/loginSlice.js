@@ -39,7 +39,10 @@ const loginSlice = createSlice({
     },
     initializeForm: (state, { payload: { form } }) => ({
       ...state,
-      [form]: initialState[form],
+      [form]: {
+        loginId: "",
+        password: "",
+      },
     }),
   },
   extraReducers: {

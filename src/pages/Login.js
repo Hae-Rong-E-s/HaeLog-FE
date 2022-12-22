@@ -2,14 +2,28 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LoginForm from "../components/login/LoginForm";
-import LinkOAuth from "../components/login/LinkOAuth";
+import FullCenterContainer from "../components/elem/FullCenterContainer";
 
-const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const Login = () => {
+  return (
+    <FullCenterContainer>
+      <LoginContainer>
+        <h2>로그인</h2>
+        <LoginForm />
+        <LinkContainer>
+          {/* <h5>소셜 계정으로 로그인</h5>
+          <LinkOAuth /> */}
+          <div>
+            아직 회원이 아니신가요?
+            <Link to={"/signup"}>
+              <LinkSignUp>회원가입</LinkSignUp>
+            </Link>
+          </div>
+        </LinkContainer>
+      </LoginContainer>
+    </FullCenterContainer>
+  );
+};
 
 const LoginContainer = styled.div`
   width: 300px;
@@ -26,7 +40,7 @@ const LinkContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 10px;
+  margin-top: 30px;
   h5 {
     margin-top: 30px;
     font-size: 17px;
@@ -44,26 +58,5 @@ const LinkSignUp = styled.div`
     color: var(--color-deep-red);
   }
 `;
-
-const Login = () => {
-  return (
-    <Container>
-      <LoginContainer>
-        <h2>로그인</h2>
-        <LoginForm />
-        <LinkContainer>
-          {/* <h5>소셜 계정으로 로그인</h5>
-          <LinkOAuth /> */}
-          <div>
-            아직 회원이 아니신가요?
-            <Link to={"/signup"}>
-              <LinkSignUp>회원가입</LinkSignUp>
-            </Link>
-          </div>
-        </LinkContainer>
-      </LoginContainer>
-    </Container>
-  );
-};
 
 export default Login;
