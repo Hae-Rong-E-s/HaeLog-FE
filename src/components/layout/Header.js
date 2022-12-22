@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
+import { baseURLApi } from "../../core/api/axios";
 import Button from "../elem/Button";
 
 const Header = () => {
   const navigate = useNavigate();
   const { nickname } = useParams();
+  const [isMine, setIsMine] = useState(false);
+
+  useEffect(() => {
+    const myInfo = async () => {
+      try {
+        const { data } = await baseURLApi.get(
+          `/member/info?nickname=${nickname}`
+        );
+        setIsMine(data.myInfo);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    myInfo();
+  }, [nickname]);
+
+  const onClickLogOutHandler = () => {
+    localStorage.removeItem("authorization");
+  };
+
   return (
     <Container>
       <MainTitle
@@ -20,22 +41,35 @@ const Header = () => {
         <div> Tom's Healog</div>
       </MainTitle>
       <div>
-        <Button
-          margin="0 20px"
-          onClick={() => {
-            navigate("create");
-          }}
-        >
-          새 글 작성
-        </Button>
-        <Button
-          margin="0 40px 0 0"
-          onClick={() => {
-            navigate("login");
-          }}
-        >
-          로그인
-        </Button>
+        {isMine === "true" ? (
+          <>
+            <Button
+              margin="0 20px"
+              onClick={() => {
+                onClickLogOutHandler();
+              }}
+            >
+              새 글 작성
+            </Button>
+            <Button
+              margin="0 40px 0 0"
+              onClick={() => {
+                navigate("login");
+              }}
+            >
+              로그아웃
+            </Button>
+          </>
+        ) : (
+          <Button
+            margin="0 40px 0 0"
+            onClick={() => {
+              navigate("login");
+            }}
+          >
+            로그인
+          </Button>
+        )}
       </div>
     </Container>
   );
