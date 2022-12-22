@@ -1,7 +1,7 @@
-import EditComment from "./EditComment";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { __getComment } from "../../../redux/modules/commentSlice";
+import Comment from "./Comment";
 import UserInfoContainer from "./UserInfoContainer";
 
 const CommentList = ({ params, state }) => {
@@ -28,7 +28,7 @@ const CommentList = ({ params, state }) => {
                 height="90px"
                 profileFontSize="18px"
               />
-              <EditComment params={params} comment={comment}></EditComment>
+              <Comment params={params} comment={comment}></Comment>
             </div>
           );
         })}

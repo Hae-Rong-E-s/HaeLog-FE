@@ -17,7 +17,6 @@ export const __getComment = createAsyncThunk(
       const data = await baseURL.get(
         `api?nickname=${payload.nickname}&postid=${payload.postId}`
       );
-      console.log("조회 통신 성공");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -32,8 +31,6 @@ export const __postComment = createAsyncThunk(
 
     try {
       const data = await baseURLApi.post(`/comment/${postId}`, addComment);
-      console.log(data.data.data);
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -48,7 +45,7 @@ export const __delComment = createAsyncThunk(
       await baseURLApi.delete(`/comment/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
-      return thunkAPI.rejectWithValue("error");
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -72,12 +69,8 @@ export const commentsSlice = createSlice({
   reducers: {},
   extraReducers: {
     // 댓글 조회
-    [__getComment.pending]: (state) => {
-      state.isLoading = true;
-    },
     [__getComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
       const commentList = action.payload.data.commentList;
       state.comments = [...commentList];
       state.describtion = action.payload.data.description;
@@ -86,27 +79,21 @@ export const commentsSlice = createSlice({
     [__getComment.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      alert(action.payload.msg);
     },
     // 댓글 작성
-    [__postComment.pending]: (state) => {
-      state.isLoading = true;
-    },
     [__postComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.comments = [...state.comments, action.payload.data];
     },
     [__postComment.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      alert(action.payload.msg);
     },
     // 댓글 삭제
-    [__delComment.pending]: (state) => {
-      state.isLoading = true;
-    },
     [__delComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.comments = state?.comments.filter(
         (comment) => comment.commentId !== action.payload
       );
@@ -114,11 +101,9 @@ export const commentsSlice = createSlice({
     [__delComment.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      alert(action.payload.msg);
     },
     // 댓글 수정
-    [__putComment.pending]: (state) => {
-      state.isLoading = true;
-    },
     [__putComment.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.comments = state.comments.map((comment) => {
@@ -133,6 +118,7 @@ export const commentsSlice = createSlice({
     [__putComment.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      alert(action.payload.msg);
     },
   },
 });

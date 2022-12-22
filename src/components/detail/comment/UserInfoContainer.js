@@ -36,7 +36,6 @@ const StprofileImage = styled.img`
   height: ${(props) => props.height};
 
   border-radius: 50%;
-  object-fit: cover;
 `;
 
 const StprofileContainer = styled.div`
@@ -48,7 +47,6 @@ const StProfileBox = styled.div`
   flex-direction: row;
   gap: 22px;
   align-items: center;
-  color: white;
   font-size: ${(props) => props.profileFontSize};
   margin: 60px 0 40px 0;
 
