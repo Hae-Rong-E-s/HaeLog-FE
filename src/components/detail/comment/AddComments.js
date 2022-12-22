@@ -36,7 +36,7 @@ const AddComments = ({ params, state }) => {
       return;
     } else {
       dispatch(__postComment({ addComment, postId }));
-      setAddComment({ content: "" }); // 초기화
+      setAddComment({ content: "" });
     }
   };
 
