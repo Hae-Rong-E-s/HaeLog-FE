@@ -36,20 +36,17 @@ const Profile = () => {
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.myPage.data);
-  console.log("myInfo", myInfo);
+  //console.log("myInfo", myInfo);
 
   return (
     <Container>
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJEAm6C-SVkvqJQ4_eMz0_KcL3wTuKHo-wYQ&usqp=CAU"
-        // src={myInfo[0].profileImage}
         alt="profileimg"
       ></img>
       <div>
         <div>{param.nickname}</div>
         <div>{myInfo[0]?.description}</div>
-        {/* <div>작성자</div>
-        <div>나의 코딩 블로그</div> */}
       </div>
     </Container>
   );
