@@ -6,15 +6,6 @@ import remarkGfm from "remark-gfm";
 // code 보여주기
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
-const MarkDownStyle = styled.div`
-  font-size: ${({ fontsize }) => fontsize || "16px"};
-  line-height: 2.5rem;
-  overflow-y: ${({ overflow }) => overflow || "auto"};
-  margin: ${({ margin }) => margin || "0"};
-  color: ${({ color }) => color || "gray"};
-  cursor: ${({ cursor }) => cursor || "default"};
-`;
-
 function BlockQutoe(children) {
   return (
     <BlockQutoeStyle>
@@ -69,6 +60,15 @@ const MarkdownRender = ({
   );
 };
 
+const MarkDownStyle = styled.div`
+  font-size: ${({ fontsize }) => fontsize || "16px"};
+  line-height: 2.5rem;
+  overflow-y: ${({ overflow }) => overflow || "auto"};
+  margin: ${({ margin }) => margin || "0"};
+  color: ${({ color }) => color || "gray"};
+  cursor: ${({ cursor }) => cursor || "default"};
+`;
+
 // 표일 때
 const TableContainer = styled.div`
   height: ${({ height }) => height || "200px"};
@@ -90,6 +90,7 @@ const TableContainer = styled.div`
 `;
 
 const BlockQutoeStyle = styled.blockquote`
+  width: 97%;
   padding: 0 0.8rem;
   border-left: 5px solid var(--color-deep-red);
   margin-left: 0;

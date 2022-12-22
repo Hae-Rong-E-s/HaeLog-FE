@@ -1,6 +1,7 @@
 // 훅
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 // 리덕스
 import {
   changeField,
@@ -16,16 +17,17 @@ import MarkdownRender from "../MarkdownRender";
 const AddPostForm = () => {
   const { postId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { form } = useSelector(({ editPost }) => ({
     form: editPost.editPost,
   }));
 
   // 수정 내용 받아오기
   useEffect(() => {
-    postId
-      ? dispatch(__getEditPost(postId))
-      : dispatch(initializeForm("editPost"));
+    if (postId) {
+      dispatch(__getEditPost(postId));
+    } else {
+      dispatch(initializeForm("editPost"));
+    }
   }, [dispatch, postId]);
 
   // 인풋 state 가져오기
@@ -108,7 +110,7 @@ const AddPostForm = () => {
       </TitleContainer>
       <hr />
       <TagContainer>
-        {form.tags.map((tagItem, index) => {
+        {form.tags?.map((tagItem, index) => {
           return (
             <button key={index} onClick={deleteTagItem}>
               {tagItem}
@@ -119,7 +121,7 @@ const AddPostForm = () => {
           type="text"
           placeholder="#태그를 입력하세요"
           name="tag"
-          value={form.tag}
+          value={form?.tag}
           onChange={onChangeTagHandler}
           onKeyUp={onKeyUp}
         />
@@ -129,8 +131,9 @@ const AddPostForm = () => {
           type="text"
           placeholder="마크다운으로 하고 싶은 이야기를 적어보세요"
           name="content"
-          value={form.content}
+          value={form?.content}
           onChange={onChangeHandler}
+          resize="none"
         />
       </ContentContainer>
       <hr />
@@ -216,7 +219,8 @@ const ContentContainer = styled.div`
     border: none;
     font-size: 18px;
     resize: none;
-    min-height: 25vh;
+    min-height: 24rem;
+    scroll-behavior: auto;
     &:focus {
       outline: none;
     }

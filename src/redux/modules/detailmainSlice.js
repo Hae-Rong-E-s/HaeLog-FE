@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { instance, baseURL } from "../../core/api/axios";
+import { baseURL } from "../../core/api/axios";
 
-//초기값
+//초기값 설정
 const initialState = {
   detailmainPost: {
     title: "",
@@ -10,7 +10,6 @@ const initialState = {
     createdAt: "",
     myPost: null,
   },
-  isLoading: false,
   error: null,
 };
 
@@ -30,26 +29,14 @@ export const __getDetailmain = createAsyncThunk(
   }
 );
 
-// export const __deleteDatailmain = createAsyncThunk(
-//   "detailmainPost/getDetailmain",
-//   async ({ payload }, thunkAPI) => {
-//     try {
-//     } catch (error) {}
-//   }
-// );
-
 //slice
 const detailmainSlice = createSlice({
   name: "detailmainPost",
   initialState,
   reducers: {},
   extraReducers: {
-    [__getDetailmain.pending]: (state) => {
-      state.isLoading = true;
-    },
     [__getDetailmain.fulfilled]: (state, action) => {
       console.log(action.payload);
-      state.isLoading = false;
       state.detailmainPost = {
         title: action.payload.data.title,
         postContent: action.payload.data.postContent,
@@ -59,7 +46,9 @@ const detailmainSlice = createSlice({
       };
     },
     [__getDetailmain.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.error = action.payload.msg;
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
   },
 });

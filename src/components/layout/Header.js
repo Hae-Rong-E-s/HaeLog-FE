@@ -15,7 +15,8 @@ const Header = () => {
         const { data } = await baseURLApi.get(
           `/member/info?nickname=${nickname}`
         );
-        setIsMine(data.myInfo);
+        console.log(data.data.myInfo);
+        setIsMine(data.data.myInfo);
       } catch (error) {
         console.log(error);
       }
@@ -25,6 +26,7 @@ const Header = () => {
 
   const onClickLogOutHandler = () => {
     localStorage.removeItem("authorization");
+    navigate("login");
   };
 
   return (
@@ -41,12 +43,12 @@ const Header = () => {
         <div> Tom's Healog</div>
       </MainTitle>
       <div>
-        {isMine === "true" ? (
+        {isMine === true ? (
           <>
             <Button
               margin="0 20px"
               onClick={() => {
-                onClickLogOutHandler();
+                navigate("create");
               }}
             >
               새 글 작성
@@ -54,7 +56,7 @@ const Header = () => {
             <Button
               margin="0 40px 0 0"
               onClick={() => {
-                navigate("login");
+                onClickLogOutHandler();
               }}
             >
               로그아웃

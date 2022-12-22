@@ -125,7 +125,7 @@ const ButtonContainer = styled.div`
 `;
 
 const TagContainer = styled.div`
-  margin: 0px 12px;
+  margin: 12px;
   display: flex;
   div {
     margin-right: 10px;

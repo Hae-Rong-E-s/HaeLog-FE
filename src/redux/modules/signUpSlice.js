@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { instanceApi } from "../../core/api/axios";
 
-//초기값
+// 초기값 처리
 const initialState = {
   signUp: {
     loginId: "",
@@ -17,6 +17,7 @@ const initialState = {
 };
 
 // thunk
+// 회원가입 버튼 체크
 export const __postSignUp = createAsyncThunk(
   "signUpPost/postSignUp",
   async (payload, thunkAPI) => {
@@ -32,6 +33,7 @@ export const __postSignUp = createAsyncThunk(
   }
 );
 
+// 아이디 중복 체크
 export const __postCheckId = createAsyncThunk(
   "signUpPost/postCheckId",
   async (payload, thunkAPI) => {
@@ -41,8 +43,6 @@ export const __postCheckId = createAsyncThunk(
         "/member/signup/loginid",
         payload
       );
-      // console.log(data);
-
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -50,6 +50,7 @@ export const __postCheckId = createAsyncThunk(
   }
 );
 
+// 닉네임 중복 체크
 export const __postCheckNickname = createAsyncThunk(
   "signUpPost/postCheckNickname",
   async (payload, thunkAPI) => {
@@ -65,7 +66,7 @@ export const __postCheckNickname = createAsyncThunk(
   }
 );
 
-//slice
+// slice
 const signUpSlice = createSlice({
   name: "signUpPost",
   initialState,
@@ -90,23 +91,22 @@ const signUpSlice = createSlice({
       }
     },
     [__postSignUp.rejected]: (state, action) => {
-      // 통신 오류 값 정리
-      console.log(action.payload.msg);
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
     // 아이디 체크
     [__postCheckId.fulfilled]: (state, action) => {
       if (action.payload.result === "success") {
         state.result = "success";
         state.isLoginIdValid = true;
-        console.log(state.isLoginIdValid);
         alert(action.payload.msg);
       } else {
         alert(action.payload.msg);
       }
     },
     [__postCheckId.rejected]: (state, action) => {
-      // 통신 오류 값 정리
-      console.log(action.payload.msg);
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
     // 닉네임 체크
     [__postCheckNickname.fulfilled]: (state, action) => {
@@ -117,11 +117,13 @@ const signUpSlice = createSlice({
         alert(action.payload.msg);
       } else {
         alert(action.payload.msg);
+        console.log(action.payload.msg);
       }
     },
     [__postCheckNickname.rejected]: (state, action) => {
       // 통신 오류 값 정리
-      console.log(action.payload.msg);
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
   },
 });

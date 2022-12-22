@@ -8,10 +8,7 @@ const initialState = {
     tag: "",
     content: "",
   },
-  // putResult: null,
-  // postResult: null,
   error: null,
-  // nickname: "",
 };
 
 // 수정내용 get 받아오기
@@ -19,7 +16,6 @@ export const __getEditPost = createAsyncThunk(
   "editPost/getEditPost",
   async (payload, thunkAPI) => {
     try {
-      // 403에러로 매번 받아오는 것 실패
       const { data } = await baseURLApi.get(`/post/${payload}`);
       console.log(data);
       return thunkAPI.fulfillWithValue(data);
@@ -67,47 +63,51 @@ const editPostSlice = createSlice({
     },
     initializeForm: (state, { payload: { form } }) => ({
       ...state,
-      [form]: initialState[form],
+      editPost: {
+        title: "",
+        tags: [],
+        tag: "",
+        content: "",
+      },
     }),
   },
   extraReducers: {
     // 수정할 내용 받아오기
-    [__getEditPost.pending]: (state) => {
-      state.isLoading = true;
-    },
     [__getEditPost.fulfilled]: (state, action) => {
-      state.isLoading = false;
       console.log(action.payload);
       state.editPost = {
         title: action.payload.data.title,
-        tags: action.payload.tags,
-        content: action.payload.content,
+        tags: action.payload.data.tags,
+        content: action.payload.data.content,
       };
-      // state.nickname = action.payload.nickname;
     },
-    [__getEditPost.rejected]: (state) => {
-      state.isLoading = false;
-      // 수정하기
+    [__getEditPost.rejected]: (state, action) => {
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
+    // 수정하기
     [__putEditPost.fulfilled]: (state, action) => {
+      // console.log(action.payload);
       if (action.payload.result === "success") {
         state.putResult = "success";
         state.nickname = action.payload.nickname;
         alert(action.payload.msg);
       } else {
+        console.log(action.payload.msg);
         alert(action.payload.msg);
       }
     },
     [__putEditPost.rejected]: (state, action) => {
-      state.isLoading = false;
-      console.log(action.payload.msg);
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
     // 새로운 내용 포스트하기
     [__postPost.fulfilled]: (state, action) => {
       alert(action.payload.msg);
     },
     [__postPost.rejected]: (state, action) => {
-      console.log(action.payload.msg);
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
   },
 });
