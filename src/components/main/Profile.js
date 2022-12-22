@@ -35,8 +35,8 @@ const Profile = () => {
     dispatch(__getInfo(param.nickname));
   }, [dispatch]);
 
-  const myInfo = useSelector((state) => state.myPage.data);
-  //console.log("myInfo", myInfo);
+  const myInfoDes = useSelector((state) => state.myPage.description);
+  //console.log("myInfoDes", myInfoDes);
 
   return (
     <Container>
@@ -46,7 +46,7 @@ const Profile = () => {
       ></img>
       <div>
         <div>{param.nickname}</div>
-        <div>{myInfo[0]?.description}</div>
+        <div>{myInfoDes.description}</div>
       </div>
     </Container>
   );

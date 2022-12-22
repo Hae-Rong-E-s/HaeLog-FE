@@ -17,6 +17,7 @@ const initialState = {
     },
   ],
   tags: [],
+  description: "",
   isLoading: false,
   error: null,
 };
@@ -58,7 +59,7 @@ export const __getInfo = createAsyncThunk(
     //console.log("payload", payload);
     try {
       const data = await baseURLApi.get(`/member/info?nickname=${payload}`);
-      console.log("data", data);
+      console.log("data", data.data.data.description);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -104,6 +105,20 @@ export const myPageSlice = createSlice({
       state.data = action.payload;
     },
     [__getMyPostTag.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    //회원 가입 후 정보 불러오기
+    [__getInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      //console.log(action.payload);
+      console.log(state.data);
+      state.description = action.payload;
+    },
+    [__getInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
