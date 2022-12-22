@@ -23,8 +23,6 @@ export const __postSignUp = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await instanceApi.post("/member/signup", payload);
-      // console.log(data);
-      // const { data } = await instance.post("/member/signup", payload);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       alert("회원가입에 실패하였습니다");

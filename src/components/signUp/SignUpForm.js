@@ -5,7 +5,6 @@ import Button from "../elem/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeField,
-  initializeForm,
   __postSignUp,
   __postCheckId,
   __postCheckNickname,
@@ -62,8 +61,6 @@ const SignUpForm = () => {
   // 회원가입 버튼 클릭
   const onClickSignUpHandler = (event) => {
     event.preventDefault();
-    console.log(isLoginIdValid);
-    console.log(isNicknameValid);
     if (
       form.username === "" ||
       form.password === "" ||
@@ -71,7 +68,7 @@ const SignUpForm = () => {
       form.nickname === "" ||
       form.desc === ""
     ) {
-      alert("빈값을 입력해주세요!");
+      alert("빈칸을 입력해주세요!");
     } else if (!isLoginIdValid) {
       alert("id 중복을 확인해주세요");
     } else if (!isNicknameValid) {
@@ -84,7 +81,6 @@ const SignUpForm = () => {
         description: form.description,
       };
       dispatch(__postSignUp(payloadForm), [dispatch]);
-      // console.log(result)
       if (result === "success") {
         navigate("/login");
       }
@@ -115,7 +111,7 @@ const SignUpForm = () => {
             중복체크
           </Button>
         </div>
-        {/* 아이디 규칙 적용 경고 수정필요*/}
+        {/* 아이디 규칙 적용 경고*/}
         {!/^(?=.*\d)(?=.*[a-z])[0-9a-z]{4,12}$/.test(form.loginId) &&
           form.loginId && (
             <p>영문 소문자, 숫자가 모두 포함된 4~12자리로 작성해주세요.</p>
@@ -131,7 +127,7 @@ const SignUpForm = () => {
           onChange={onChangeInputHandler}
           placeholder="영문, 숫자, 특수문자가 모두 포함된 8~16자리로 작성해주세요."
         ></input>
-        {/* 비밀번호 규칙 적용 경고 수정 필요*/}
+        {/* 비밀번호 규칙 적용 경고*/}
         {!/^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/.test(
           form.password
         ) &&
