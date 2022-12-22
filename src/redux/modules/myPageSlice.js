@@ -59,7 +59,7 @@ export const __getInfo = createAsyncThunk(
     //console.log("payload", payload);
     try {
       const data = await baseURLApi.get(`/member/info?nickname=${payload}`);
-      console.log("data", data.data.data.description);
+      //console.log("data", data.data.data.description);
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
