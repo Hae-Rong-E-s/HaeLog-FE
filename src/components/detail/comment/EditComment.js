@@ -26,7 +26,7 @@ const EditComment = ({ comment }) => {
     setEditComment(e.target.value);
   };
   /** 수정 버튼클릭 로직*/
-  const onClickEditComment = (commentid) => {
+  const onClickEditCommentHandler = (commentid) => {
     if (editComment.trim() === "") {
       alert("공백입니다!");
       return;
@@ -81,7 +81,7 @@ const EditComment = ({ comment }) => {
             width="90px"
             yar
             fontSize="20px"
-            onClick={() => onClickEditComment(comment.commentId)}
+            onClick={() => onClickEditCommentHandler(comment.commentId)}
           >
             {isEditMode ? "완료" : "수정"}
           </Button>
