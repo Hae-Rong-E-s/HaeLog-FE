@@ -5,6 +5,7 @@ import { baseURLApi, baseURL } from "../../core/api/axios";
 const initialState = {
   comments: [],
   describtion: "",
+  postMemberNickname: "",
   isLoading: false,
   error: null,
 };
@@ -16,7 +17,7 @@ export const __getComment = createAsyncThunk(
       const data = await baseURL.get(
         `api?nickname=${payload.nickname}&postid=${payload.postId}`
       );
-
+      console.log("조회 통신 성공");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -31,7 +32,9 @@ export const __postComment = createAsyncThunk(
 
     try {
       const data = await baseURLApi.post(`/comment/${postId}`, addComment);
-      return thunkAPI.fulfillWithValue(data);
+      console.log(data.data.data);
+
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -53,11 +56,10 @@ export const __delComment = createAsyncThunk(
 export const __putComment = createAsyncThunk(
   "patchComment",
   async (payload, thunkAPI) => {
-    console.log(payload);
     const { content, commentid } = payload;
     try {
       const data = await baseURLApi.put(`/comment/${commentid}`, content); // data는 무엇이냐? => put요청으로 부터 받는 Response 값이 아닌가? => 그러면 그냥 통신 잘됬다는 메세지?
-      return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue(commentid, content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -75,10 +77,10 @@ export const commentsSlice = createSlice({
     },
     [__getComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // console.log("action:", action.payload.data);
       const commentList = action.payload.data.commentList;
       state.comments = [...commentList];
-      // state.describtion =action.payload.data.description
+      state.describtion = action.payload.data.description;
+      state.postMemberNickname = action.payload.data.postMemberNickname;
     },
     [__getComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -90,9 +92,13 @@ export const commentsSlice = createSlice({
     },
     [__postComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comments = state.comments.push(action);
-
-      console.log(action);
+      console.log(action.payload);
+      const a = state.comments;
+      console.log(a);
+      const tempComments = [...a];
+      console.log(tempComments);
+      const newComments = tempComments.push(action.payload);
+      state.comments = newComments;
     },
     [__postComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -104,7 +110,8 @@ export const commentsSlice = createSlice({
     },
     [__delComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comments = state.comments.filter(
+      console.log(action);
+      state.comments = state?.comments.filter(
         (comment) => comment.commentId !== action.payload
       ); // 댓글 삭제 로직 => commentId 체크해보기
     },
@@ -117,11 +124,13 @@ export const commentsSlice = createSlice({
     },
     [__putComment.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log("1:", action.meta.content);
+      console.log("2:", action.meta.arg.commentid);
       state.comments = state.comments.map((comment) => {
-        if (comment.id === action.payload.id) {
+        if (comment.commentId === action.meta.arg.commentid) {
           return {
             ...state,
-            commentContent: action.payload.comment,
+            commentContent: action.meta.content,
           };
         }
       });

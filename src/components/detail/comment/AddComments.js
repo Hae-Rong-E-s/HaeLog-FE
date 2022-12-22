@@ -21,7 +21,7 @@ const AddComments = ({ params, state }) => {
   });
 
   // Textarea 상태관리
-  const onChangeHandler = (e) => {
+  const onChangeTextareaHandler = (e) => {
     setAddComment({ content: e.target.value });
   };
 
@@ -42,14 +42,20 @@ const AddComments = ({ params, state }) => {
 
   return (
     <>
-      <UserInfoContainer height="170px" width="170px" profileFontSize="25px" />
+      <UserInfoContainer
+        height="170px"
+        width="170px"
+        profileFontSize="25px"
+        createAt={state.comments?.describtion}
+        username={state.comments?.postMemberNickname}
+      />
       <StCommentFormBox>
         <StCommentForm>
           <StTextArea
             required
             type="text"
-            value={addComment.content}
-            onChange={onChangeHandler}
+            value={addComment?.content}
+            onChange={onChangeTextareaHandler}
           ></StTextArea>
         </StCommentForm>
         <StButtonBox>
