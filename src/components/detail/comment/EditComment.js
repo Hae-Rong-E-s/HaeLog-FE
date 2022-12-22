@@ -52,20 +52,6 @@ const EditComment = ({ comment }) => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div>
-        <h1>🤩...댓글 불러오는중...🤩</h1>
-      </div>
-    );
-  } else if (error) {
-    return (
-      <div>
-        <h1>😭...Eroor...😭</h1>
-      </div>
-    );
-  }
-
   return (
     <div>
       <StTextArea

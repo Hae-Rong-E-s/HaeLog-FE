@@ -58,7 +58,7 @@ export const __putComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     const { content, commentid } = payload;
     try {
-      const data = await baseURLApi.put(`/comment/${commentid}`, content); // data는 무엇이냐? => put요청으로 부터 받는 Response 값이 아닌가? => 그러면 그냥 통신 잘됬다는 메세지?
+      const data = await baseURLApi.put(`/comment/${commentid}`, content);
       return thunkAPI.fulfillWithValue(commentid, content);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -77,6 +77,7 @@ export const commentsSlice = createSlice({
     },
     [__getComment.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log(action);
       const commentList = action.payload.data.commentList;
       state.comments = [...commentList];
       state.describtion = action.payload.data.description;
@@ -92,7 +93,8 @@ export const commentsSlice = createSlice({
     },
     [__postComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comments = [...state.comments, action.payload];
+      console.log(action);
+      state.comments = [...state.comments, action.payload.data];
     },
     [__postComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -119,8 +121,6 @@ export const commentsSlice = createSlice({
     },
     [__putComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // console.log("1:", action.meta.content); // 바꾼 댓글내용
-      // console.log("2:", action.meta.arg.commentid); // 바꾼 댓글의 번호
       state.comments = state.comments.map((comment) => {
         if (comment.commentId === action.meta.arg.commentid) {
           return {
