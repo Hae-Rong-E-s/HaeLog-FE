@@ -29,9 +29,6 @@ const SignUpForm = () => {
     ({ signUpPost }) => signUpPost.isNicknameValid
   );
 
-  // 컴포넌트 초기값
-  // useEffect(() => dispatch(initializeForm("signUp")), [dispatch]);
-
   // input값 수정
   const onChangeInputHandler = (event) => {
     const { name, value } = event.target;

@@ -1,19 +1,14 @@
-// 훅
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-
-// 리덕스
 import {
   changeField,
   initializeForm,
   __getEditPost,
 } from "../../redux/modules/editPostSlice";
 import { useDispatch, useSelector } from "react-redux";
-// 디자인
 import styled from "styled-components";
 import MarkdownRender from "../MarkdownRender";
 
-//-- JSX --//
 const AddPostForm = () => {
   const { postId } = useParams();
   const dispatch = useDispatch();
@@ -153,7 +148,6 @@ const AddPostForm = () => {
   );
 };
 
-//-- 디자인 --//
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: end;
