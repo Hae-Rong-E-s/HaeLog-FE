@@ -38,7 +38,7 @@ const LoginForm = () => {
   const onClickToLoginHandler = (event) => {
     event.preventDefault();
     if (form.username === "" || form.password === "") {
-      alert("빈값을 입력해주세요!");
+      alert("빈칸을 입력해주세요");
     } else {
       dispatch(__postLogin(form)).then((res) => {
         navigate(`/@${res.payload.data.nickname}`);
