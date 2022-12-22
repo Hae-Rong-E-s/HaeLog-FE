@@ -18,7 +18,7 @@ const TagList = () => {
 
   const myPageInfo = useSelector((state) => state.myPage);
   const { data: myInfo, tags: myTags } = myPageInfo;
-  console.log("myPageInfo", myPageInfo);
+  //console.log("myPageInfo", myPageInfo);
 
   const onClickTagHandler = (nickname, tag) => {
     //console.log({ nickname, tag });
@@ -52,10 +52,6 @@ const TagList = () => {
           ))}
       </ContainerTag>
       <Container>
-        {/* <img
-      src="https://velog.velcdn.com/images/jejupalette/post/7f674bf9-5f01-4091-ba22-85c6255da53c/image.png"
-      alt="contentImg"
-    ></img> */}
         {myInfo.length !== 0 ? (
           myInfo.map((myInfo) => (
             <>
