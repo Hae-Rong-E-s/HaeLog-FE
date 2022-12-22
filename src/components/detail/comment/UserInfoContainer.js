@@ -50,7 +50,8 @@ const StProfileBox = styled.div`
   align-items: center;
   color: white;
   font-size: ${(props) => props.profileFontSize};
-  margin-bottom: 40px;
+  margin: 60px 0 40px 0;
+
   h3 {
     font-family: "light";
   }
