@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { __getMyPage, __getMyPostTag } from "../../redux/modules/myPageSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import MarkdownRender from "../MarkdownRender";
 
 const ContainerTag = styled.div`
   margin: 30px 0;
@@ -59,6 +60,7 @@ const TagList = () => {
     //console.log({ nickname, tag });
     dispatch(__getMyPostTag({ nickname, tag }), [dispatch]);
   };
+  console.log(myInfo[0].contentSummary);
 
   return (
     <>
@@ -86,7 +88,10 @@ const TagList = () => {
               <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
                 <h3>{myInfo.title}</h3>
               </StLink>
-              <p>{myInfo.contentSummary}</p>
+              <MarkdownRender
+                markdown={myInfo.contentSummary}
+                overflow="none"
+              ></MarkdownRender>
             </StDiv>
           ))
         ) : (

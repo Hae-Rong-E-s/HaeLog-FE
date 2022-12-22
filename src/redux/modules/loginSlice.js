@@ -7,9 +7,7 @@ const initialState = {
     loginId: "",
     password: "",
   },
-  result: null,
   error: null,
-  // nickname: "test",
 };
 
 // thunk
@@ -22,12 +20,9 @@ export const __postLogin = createAsyncThunk(
         payload
       );
       console.log(headers);
-      // accesstoken 확인
-      // document.cookie = `authorization = ${headers.authorization}`;
       localStorage.setItem("authorization", headers.authorization);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      // error 처리 해주기
       alert("로그인에 실패하였습니다");
       return thunkAPI.rejectWithValue(error);
     }
@@ -49,13 +44,11 @@ const loginSlice = createSlice({
   },
   extraReducers: {
     [__postLogin.rejected]: (state, action) => {
-      // 통신 오류 값 정리
-      console.log(action.payload.msg);
+      console.log(action.payload.response.data.msg);
+      alert(action.payload.response.data.msg);
     },
   },
 });
 
-// 컴포넌트 사용을 위해 export
 export const { changeField, initializeForm } = loginSlice.actions;
-// configStore에 등록하기 위해 export default
 export default loginSlice.reducer;

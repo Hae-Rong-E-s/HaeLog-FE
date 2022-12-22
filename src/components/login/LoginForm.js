@@ -97,6 +97,9 @@ const FormContainer = styled.div`
       border-top-width: 0;
       border-bottom: solid 2px white;
       margin: 10px 0 0 0;
+      &:focus {
+        outline: none;
+      }
     }
   }
 `;
