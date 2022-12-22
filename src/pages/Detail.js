@@ -1,9 +1,9 @@
 import React from "react";
-import AddComment from "../components/detail/comment/AddComments";
 import CommentList from "../components/detail/comment/CommentList";
 import Post from "../components/detail/post/Post";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AddCommentForm from "../components/detail/comment/AddCommentForm";
 
 const Detail = () => {
   const param = useParams();
@@ -12,7 +12,7 @@ const Detail = () => {
   return (
     <div>
       <Post params={param} />
-      <AddComment params={param} state={state} />
+      <AddCommentForm params={param} state={state} />
       <CommentList params={param} state={state.comments} />
     </div>
   );
