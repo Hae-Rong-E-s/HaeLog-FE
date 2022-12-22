@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Button from "../elem/Button";
-// import { postLogin } from "../../core/api/login/queries";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,6 +7,8 @@ import {
   initializeForm,
   __postLogin,
 } from "../../redux/modules/loginSlice";
+import Button from "../elem/Button";
+import LoginInput from "./LoginInput";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -16,16 +16,13 @@ const LoginForm = () => {
   const { form } = useSelector(({ login }) => ({
     form: login.login,
   }));
-  // const result = useSelector(({ login }) => login.result);
-  // const nickname = useSelector(({ login }) => login.nickname);
-  // console.log(nickname);
 
   // 컴포넌트가 처음 렌더링 될 때 form 초기화
   useEffect(() => {
     dispatch(initializeForm("login"));
   }, [dispatch]);
 
-  // input값 수정
+  // input값
   const onChangeInputHandler = (e) => {
     const { name, value } = e.target;
     dispatch(
@@ -52,24 +49,20 @@ const LoginForm = () => {
   return (
     <div>
       <FormContainer>
-        <ButtonContainer></ButtonContainer>
         <form>
-          <input
-            //name id로 쓸지 확인
+          <LoginInput
             name="loginId"
-            autoComplete="username"
             value={form.loginId}
-            onChange={onChangeInputHandler}
+            onChangeInputHandler={onChangeInputHandler}
             placeholder="아이디를 입력해주세요"
-          ></input>
-          <input
+          />
+          <LoginInput
             name="password"
             type="password"
-            autoComplete="new-password"
             value={form.password}
-            onChange={onChangeInputHandler}
-            placeholder="비밀번호를 입력해주세요"
-          ></input>
+            onChangeInputHandler={onChangeInputHandler}
+            placeholder="아이디를 입력해주세요"
+          />
           <Button
             width="100%"
             margin="40px 0 0 0"
@@ -88,26 +81,6 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  form {
-    input {
-      width: 100%;
-      padding: 10px 2px;
-      border-left-width: 0;
-      border-right-width: 0;
-      border-top-width: 0;
-      border-bottom: solid 2px white;
-      margin: 10px 0 0 0;
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-`;
-
-const ButtonContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: end;
 `;
 
 export default LoginForm;
