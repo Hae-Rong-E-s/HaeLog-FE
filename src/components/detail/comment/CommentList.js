@@ -10,7 +10,9 @@ const CommentList = ({ params, state }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(__getComment(params));
+    setTimeout(() => {
+      dispatch(__getComment(params));
+    }, 10);
   }, [dispatch, params]);
 
   return (

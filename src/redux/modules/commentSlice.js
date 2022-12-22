@@ -92,13 +92,7 @@ export const commentsSlice = createSlice({
     },
     [__postComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
-      const a = state.comments;
-      console.log(a);
-      const tempComments = [...a];
-      console.log(tempComments);
-      const newComments = tempComments.push(action.payload);
-      state.comments = newComments;
+      state.comments = [...state.comments, action.payload];
     },
     [__postComment.rejected]: (state, action) => {
       state.isLoading = false;
@@ -113,10 +107,11 @@ export const commentsSlice = createSlice({
       console.log(action);
       state.comments = state?.comments.filter(
         (comment) => comment.commentId !== action.payload
-      ); // 댓글 삭제 로직 => commentId 체크해보기
+      );
     },
     [__delComment.rejected]: (state, action) => {
       state.isLoading = false;
+      state.error = action.payload;
     },
     // 댓글 수정
     [__putComment.pending]: (state) => {
@@ -124,12 +119,12 @@ export const commentsSlice = createSlice({
     },
     [__putComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("1:", action.meta.content);
-      console.log("2:", action.meta.arg.commentid);
+      // console.log("1:", action.meta.content); // 바꾼 댓글내용
+      // console.log("2:", action.meta.arg.commentid); // 바꾼 댓글의 번호
       state.comments = state.comments.map((comment) => {
         if (comment.commentId === action.meta.arg.commentid) {
           return {
-            ...state,
+            ...comment,
             commentContent: action.meta.content,
           };
         }
