@@ -7,17 +7,12 @@ import {
   __getComment,
   __putComment,
 } from "../../../redux/modules/commentSlice";
-import { useSelector } from "react-redux";
 
-const EditComment = ({ comment }) => {
+const Comment = ({ comment }) => {
   const dispatch = useDispatch();
 
-  const { isLoading, error } = useSelector((state) => state.comments);
-
-  // textarea에 입력할 수 있도록 on, off를 관리하는 상태
   const [isEditMode, setIsEditMode] = useState(false);
 
-  /** 코멘트 안의 업데이트될 새로운 댓글 */
   const newComment = comment.commentContent;
   const [editComment, setEditComment] = useState(newComment);
 
@@ -25,7 +20,7 @@ const EditComment = ({ comment }) => {
     e.preventDefault();
     setEditComment(e.target.value);
   };
-  /** 수정 버튼클릭 로직*/
+
   const onClickEditCommentHandler = (commentid) => {
     if (editComment.trim() === "") {
       alert("공백입니다!");
@@ -87,13 +82,11 @@ const EditComment = ({ comment }) => {
   );
 };
 
-export default EditComment;
+export default Comment;
 
 const StTextArea = styled.textarea`
   width: 97%;
-
   resize: none;
-  border-radius: 4px;
   border: none;
   color: white;
   background-color: ${(props) => props.backColor};
@@ -104,8 +97,6 @@ const StTextArea = styled.textarea`
 
 const Stbuttons = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
   gap: 20px;
-  margin-bottom: 30px;
 `;

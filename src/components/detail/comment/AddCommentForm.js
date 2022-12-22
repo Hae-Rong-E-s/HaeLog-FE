@@ -9,23 +9,19 @@ import {
   __postComment,
 } from "../../../redux/modules/commentSlice";
 
-const AddComments = ({ params, state }) => {
+const AddCommentForm = ({ params, state }) => {
   const dispatch = useDispatch();
 
-  // url path에 입력된 값을 가져오기
   const postId = params.postId;
 
-  // Network 요청에 대한 댓글 상태관리
   const [addComment, setAddComment] = useState({
     content: "",
   });
 
-  // Textarea 상태관리
   const onChangeTextareaHandler = (e) => {
     setAddComment({ content: e.target.value });
   };
 
-  // POST
   const onClickAddHandler = (e) => {
     e.preventDefault();
     if (addComment.content.trim() === "") {
@@ -73,7 +69,7 @@ const AddComments = ({ params, state }) => {
   );
 };
 
-export default AddComments;
+export default AddCommentForm;
 
 const StCommentFormBox = styled.div`
   margin: 80px 0 50px 0;
