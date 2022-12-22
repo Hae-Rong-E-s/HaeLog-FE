@@ -1,6 +1,6 @@
 import EditComment from "./EditComment";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { __getComment } from "../../../redux/modules/commentSlice";
 import UserInfoContainer from "./UserInfoContainer";
 
@@ -16,14 +16,14 @@ const CommentList = ({ params, state }) => {
   return (
     <div>
       {comments &&
-        comments.map((comment) => {
-          // const { createAt } = comment;
-          // const parsedCreateAt = createAt.slice(1, 10);
+        comments?.map((comment) => {
+          const { createAt } = comment;
+          const parsedCreateAt = createAt.slice(0, 10);
           return (
             <div key={comment.commentId}>
               <UserInfoContainer
                 username={comment.commentMemberNickname}
-                createAt={comment.createAt}
+                createAt={parsedCreateAt}
                 width="90px"
                 height="90px"
                 profileFontSize="18px"
