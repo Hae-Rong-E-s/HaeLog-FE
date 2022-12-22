@@ -20,13 +20,12 @@ const AddPostForm = () => {
   const { form } = useSelector(({ editPost }) => ({
     form: editPost.editPost,
   }));
-  console.log(form);
 
   // 수정 내용 받아오기
   useEffect(() => {
-    if (postId) {
-      dispatch(__getEditPost(postId), [dispatch]);
-    }
+    postId
+      ? dispatch(__getEditPost(postId))
+      : dispatch(initializeForm("editPost"));
   }, [dispatch, postId]);
 
   // 인풋 state 가져오기
@@ -182,7 +181,10 @@ const TagContainer = styled.div`
   display: flex;
   padding: 18px 15px 15px 0;
   button {
-    margin-right: 5px;
+    margin-right: 10px;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 20px;
   }
   span {
     color: gray;

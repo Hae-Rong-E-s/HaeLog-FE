@@ -16,7 +16,7 @@ const LoginForm = () => {
   const { form } = useSelector(({ login }) => ({
     form: login.login,
   }));
-  const result = useSelector(({ login }) => login.result);
+  // const result = useSelector(({ login }) => login.result);
   // const nickname = useSelector(({ login }) => login.nickname);
   // console.log(nickname);
 

@@ -187,15 +187,28 @@ const SignUpForm = () => {
           onChange={onChangeInputHandler}
         ></input>
       </form>
-      <Button
-        width="100%"
-        margin="10px 5px 0 0"
-        fontFamily="bold"
-        fontSize="16px"
-        onClick={onClickSignUpHandler}
-      >
-        회원가입
-      </Button>
+      <ButtonContainer>
+        <Button
+          width="50%"
+          margin="5px 5px 0 0"
+          fontFamily="bold"
+          fontSize="16px"
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          취소
+        </Button>
+        <Button
+          width="50%"
+          margin="5px 0 0 5px"
+          fontFamily="bold"
+          fontSize="16px"
+          onClick={onClickSignUpHandler}
+        >
+          회원가입
+        </Button>
+      </ButtonContainer>
     </Container>
   );
 };
@@ -244,6 +257,10 @@ const Container = styled.div`
       color: white;
     }
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
 `;
 
 export default SignUpForm;

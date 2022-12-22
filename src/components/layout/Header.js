@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../elem/Button";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { nickname } = useParams();
   return (
     <Container>
       <MainTitle
         onClick={() => {
-          navigate("/");
+          navigate(`/@${nickname}`);
         }}
       >
         <HIcon
