@@ -53,7 +53,7 @@ const TagList = () => {
 
   const myPageInfo = useSelector((state) => state.myPage);
   const { data: myInfo, tags: myTags } = myPageInfo;
-  console.log("myInfo", myInfo);
+  console.log("myPageInfo", myPageInfo);
 
   const onClickTagHandler = (nickname, tag) => {
     //console.log({ nickname, tag });
