@@ -47,6 +47,7 @@ const detailmainSlice = createSlice({
     },
     [__getDetailmain.rejected]: (state, action) => {
       state.error = action.payload.msg;
+      console.log(action.payload);
       console.log(action.payload.response.data.msg);
       alert(action.payload.response.data.msg);
     },

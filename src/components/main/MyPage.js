@@ -7,6 +7,80 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import MarkdownRender from "../MarkdownRender";
 
+const TagList = () => {
+  const dispatch = useDispatch();
+  const param = useParams();
+  //console.log("param", param);
+
+  useEffect(() => {
+    dispatch(__getMyPage(param.nickname));
+  }, [dispatch]);
+
+  const myPageInfo = useSelector((state) => state.myPage);
+  const { data: myInfo, tags: myTags } = myPageInfo;
+  console.log("myPageInfo", myPageInfo);
+
+  const onClickTagHandler = (nickname, tag) => {
+    //console.log({ nickname, tag });
+    dispatch(__getMyPostTag({ nickname, tag }), [dispatch]);
+  };
+
+  return (
+    <>
+      <ContainerTag>
+        {param.nickname && (
+          <Button
+            fontSize="12px"
+            margin="0 20px 0 0"
+            onClick={() => {
+              dispatch(__getMyPage(param.nickname));
+            }}
+          >
+            All
+          </Button>
+        )}
+        {param.nickname &&
+          myTags.map((tag) => (
+            <Button
+              key={tag.id}
+              fontSize="12px"
+              margin="0 20px 0 0"
+              onClick={() => onClickTagHandler(param.nickname, tag.tags)}
+            >
+              {tag.tags}
+            </Button>
+          ))}
+      </ContainerTag>
+      <Container>
+        {/* <img
+      src="https://velog.velcdn.com/images/jejupalette/post/7f674bf9-5f01-4091-ba22-85c6255da53c/image.png"
+      alt="contentImg"
+    ></img> */}
+        {myInfo.length !== 0 ? (
+          myInfo.map((myInfo) => (
+            <>
+              <StDiv key={myInfo.postid}>
+                <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
+                  <h3>{myInfo.title}</h3>
+                  <MarkdownRender
+                    markdown={myInfo.contentSummary}
+                    overflow="none"
+                    cursor="pointer"
+                    height="auto"
+                    padding=""
+                  ></MarkdownRender>
+                </StLink>
+              </StDiv>
+            </>
+          ))
+        ) : (
+          <h3>첫 글쓰기를 시작하세요</h3>
+        )}
+      </Container>
+    </>
+  );
+};
+
 const ContainerTag = styled.div`
   margin: 30px 0;
 `;
@@ -30,10 +104,14 @@ const Container = styled.div`
 `;
 
 const StDiv = styled.div`
-  padding-top: 30px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid var(--color-light-gray);
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  /* height: 200px; */
+  overflow: hidden;
+  border-top: solid 1px var(--color-light-gray);
   &:first-child {
+    border-top: solid 0px red;
     padding-top: 0px;
   }
 `;
@@ -41,65 +119,7 @@ const StDiv = styled.div`
 const StLink = styled(Link)`
   text-decoration: none;
   color: white;
+  cursor: pointer;
 `;
-
-const TagList = () => {
-  const dispatch = useDispatch();
-  const param = useParams();
-  //console.log("param", param);
-
-  useEffect(() => {
-    dispatch(__getMyPage(param.nickname));
-  }, [dispatch]);
-
-  const myPageInfo = useSelector((state) => state.myPage);
-  const { data: myInfo, tags: myTags } = myPageInfo;
-  console.log("myPageInfo", myPageInfo);
-
-  const onClickTagHandler = (nickname, tag) => {
-    //console.log({ nickname, tag });
-    dispatch(__getMyPostTag({ nickname, tag }), [dispatch]);
-  };
-  console.log(myInfo[0].contentSummary);
-
-  return (
-    <>
-      <ContainerTag>
-        {param.nickname &&
-          myTags.map((tag) => (
-            <Button
-              key={tag.id}
-              fontSize="12px"
-              margin="0 20px 0 0"
-              onClick={() => onClickTagHandler(param.nickname, tag.tags)}
-            >
-              {tag.tags}
-            </Button>
-          ))}
-      </ContainerTag>
-      <Container>
-        {/* <img
-      src="https://velog.velcdn.com/images/jejupalette/post/7f674bf9-5f01-4091-ba22-85c6255da53c/image.png"
-      alt="contentImg"
-    ></img> */}
-        {myInfo.length !== 0 ? (
-          myInfo.map((myInfo) => (
-            <StDiv key={myInfo.postid}>
-              <StLink to={`/@${param.nickname}/${myInfo.postid}`}>
-                <h3>{myInfo.title}</h3>
-              </StLink>
-              <MarkdownRender
-                markdown={myInfo.contentSummary}
-                overflow="none"
-              ></MarkdownRender>
-            </StDiv>
-          ))
-        ) : (
-          <h3>첫 글쓰기를 시작하세요</h3>
-        )}
-      </Container>
-    </>
-  );
-};
 
 export default TagList;
